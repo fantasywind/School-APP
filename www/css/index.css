@@ -1,0 +1,157 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#E4E4E4;
+    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #A7A7A7),
+        color-stop(0.51, #E4E4E4)
+    );
+    background-attachment:fixed;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12px;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    text-transform:uppercase;
+    width:100%;
+}
+
+/* Container */
+.app {
+    position:absolute;             /* position in the center of the screen */
+    left: 0;
+    top: 0;
+    height: 100%;                   /* text area height */
+    width: 100%;                   /* text area width */
+    text-align: center;    /* image height is 200px (bottom 20px are overlapped with text) */
+}
+
+/* Customerize */
+/* Header */
+.app > header {
+    height: 105px;
+    width: 100%;
+    border-bottom: 1px solid #555;
+    background-image: url(../img/cover@2x.JPG);
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 20px;
+    left: 0;
+}
+#weather {
+    width: 105px;
+    background-color: rgba(0, 0, 0, 0.4);
+    /*margin: 55px 0 0 15px;*/
+    -webkit-transform: translate(14px, 55px);
+    min-height: 42px;
+}
+#weather-image {
+    float: left;
+    width: 30px;
+    height: 30px;
+    margin: 6px;
+    background-image: url(http://placehold.it/30x30);
+}
+#weather .info {
+    margin: 6px 4px;
+    padding: 0;
+    float: left;
+}
+#weather .info > span {
+    color: #FFF;
+    text-align: center;
+    font-size: 0.8em;
+    display: block;
+}
+#tiles-container {
+    width: 100%;
+    position: fixed;
+    top: 130px;
+    height: 350px;
+}
+#tiles-container > .tile {
+    display: block;
+    float: left;
+    text-decoration: none;
+    color: #FFF;
+}
+#tiles-container > .tile.half {
+    width: 48%;
+    height: 120px;
+    margin: 1%;
+}
+#tiles-container > .tile.half > i {
+    font-size: 4em;
+    display: block;
+    margin: 28px 0 14px 0;
+}
+#tiles-container > .tile.half > span {
+    font-size: 1.4em;
+}
+.green-tea {
+    background-color: #16a085;
+}
+.belize-hole {
+    background-color: #2980b9;
+}
+.pumpkin {
+    background-color: #d35400;
+}
+.wisteria {
+    background-color: #8e44ad;
+}
+.pomegranate {
+    background-color: #c0392b;
+}
