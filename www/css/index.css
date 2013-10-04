@@ -104,6 +104,12 @@ body {
     margin: 6px;
     background-image: url(http://placehold.it/30x30);
 }
+#temp {
+    display: inline;
+}
+#temp-container {
+    margin-top: 3px;
+}
 #weather .info {
     margin: 6px 4px;
     padding: 0;
