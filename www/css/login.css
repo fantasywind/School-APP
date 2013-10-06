@@ -1,0 +1,73 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Heiti TC";
+}
+.app {
+  width: 100%;
+  height: 100%;
+  background-image: url(../img/login_bg.jpg);
+  background-repeat: no-repeat;
+  margin 0;
+  -webkit-background-size: 100% 100%;
+}
+#top-placeholder {
+  height: 8%;
+  display: block;
+}
+.app > header > h1 {
+  text-align: center;
+  margin-top: 0;
+  background-color: rgba(255, 255, 255, 0.65);
+  padding: 16px 22px;
+}
+.login-form {
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid #555;
+  color: #FFF;
+  padding: 8px 2%;
+  position: fixed;
+  top: 40%;
+  left: 8%;
+}
+.login-form h2 {
+  font-size: 13px;
+  text-align: center;
+  margin: 3px 0 0 0;
+}
+.email {
+  margin-top: 8px;
+}
+.helper > span {
+  font-size: 9px;
+}
+.input > input {
+  width: 90%;
+  border-radius: 1px;
+  line-height: 13px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: none;
+  padding: 1px 6px;
+  margin-left: 4px;
+}
+.input > input::-webkit-input-placeholder { /* WebKit browsers */
+  color: #666;
+}
+.actions {
+  text-align: center;
+}
+.actions > button {
+  border-radius: 1px;
+  border: 1px solid #27ae60;
+  background-color: #2ecc71;
+  color: #FFF;
+  padding: 6px 60px;
+  font-size: 16px;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
