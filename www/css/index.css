@@ -80,7 +80,7 @@ body {
 /* Customerize */
 /* Header */
 .app > header {
-    height: 25%;
+    height: 105px;
     width: 100%;
     border-bottom: 1px solid #555;
     background-image: url(../img/cover@2x.JPG);
