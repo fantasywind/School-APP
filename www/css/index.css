@@ -76,6 +76,7 @@ body {
     text-align: center;    /* image height is 200px (bottom 20px are overlapped with text) */
 }
 
+
 /* Customerize */
 /* Header */
 .app > header {
@@ -161,3 +162,44 @@ body {
 .pomegranate {
     background-color: #c0392b;
 }
+.orange-juice {
+    background-color: #FF9D37;
+}
+.deep-blue {
+    background-color: #5755FF;
+}
+.blue {
+    background-color: #1989FF;
+}
+.light-green {
+    background-color: #00BE61;
+}
+
+#smalltiles-container {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    height: 100px;
+}
+#smalltiles-container > .smalltiles {
+    display: block;
+    float: left;
+    text-decoration: none;
+    color: #FFF;
+}
+#smalltiles-container > .smalltiles.quater {
+    width: 23%;
+    height: 80px;
+    margin: 1%;
+}
+#smalltiles-container > .smalltiles.quater > i {
+    font-size: 4em;
+    display: block;
+    margin: 0px 0 4px 0;
+}
+#smalltiles-container > .smalltiles.quater > span {
+    font-size: 1.4em;
+}
+
+
+
