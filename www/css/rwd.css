@@ -1,13 +1,13 @@
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen 
 and (min-device-width : 320px) 
-and (max-device-width : 480px) {
+and (max-device-height : 480px) {
 /* Styles */
     #tiles-container {
         width: 100%;
         position: fixed;
-        top: 130px;
-        height: 250px;
+        top: 27%;
+        height: 50%;
     }
     #tiles-container > .tile {
         display: block;
@@ -17,13 +17,13 @@ and (max-device-width : 480px) {
     }
     #tiles-container > .tile.half {
         width: 48%;
-        height: 120px;
+        height: 53%;
         margin: 1%;
     }
     #tiles-container > .tile.half > i {
         font-size: 4em;
         display: block;
-        margin: 28px 0 14px 0;
+        
     }
     #tiles-container > .tile.half > span {
         font-size: 1.4em;
@@ -31,9 +31,9 @@ and (max-device-width : 480px) {
 
     #smalltiles-container {
     width: 100%;
-    position: absolute;
-    bottom: 0px;
-    height: 100px;
+    position: fixed;
+    top: 83%;
+    height: 23%;
     }
     #smalltiles-container > .smalltiles {
         display: block;
@@ -43,16 +43,18 @@ and (max-device-width : 480px) {
     }
     #smalltiles-container > .smalltiles.quater {
         width: 23%;
-        height: 80px;
-        margin: 1%;
+        height: 66%;
     }
     #smalltiles-container > .smalltiles.quater > i {
-        font-size: 4em;
+        padding-top:10%;
+        font-size: 3.5em;
         display: block;
-        margin: 0px 0 4px 0;
+        
     }
     #smalltiles-container > .smalltiles.quater > span {
-        font-size: 1.4em;
+        margin-top: -10%;
+        font-size: 1.1em;
+        display: block;
     }
 
 }
