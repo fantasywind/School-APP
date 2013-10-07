@@ -4,7 +4,8 @@ var config = require("../config.json"),
     conn = mysql.createConnection({
       host: config.host,
       user: config.account,
-      password: config.password
+      password: config.password,
+      database: 'schoolapp'
     });
 
 console.dir (config)
