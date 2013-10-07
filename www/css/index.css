@@ -87,15 +87,17 @@ body {
     background-repeat: no-repeat;
     margin: 0;
     padding: 0;
-    position: fixed;
+    position: relative;
     left: 0;
 }
 #weather {
     width: 105px;
     background-color: rgba(0, 0, 0, 0.4);
     /*margin: 55px 0 0 15px;*/
-    -webkit-transform: translate(14px, 55px);
     min-height: 42px;
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
 }
 #weather-image {
     float: left;

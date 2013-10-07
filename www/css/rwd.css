@@ -6,13 +6,30 @@ and (min-device-height : 480px) {
     
     .app > header {
 
-        height: 25%;
+        height: 27%;
+    }
+
+    #weather {
+
+        
+        color: #FFF;
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        
+    }
+    #weather-image {
+        float: left;
+        width: 30px;
+        height: 30px;
+        margin: 6px;
+        background-image: url(http://placehold.it/30x30);
     }
 
     #tiles-container {
         width: 100%;
         position: fixed;
-        top: 27%;
+        top: 28%;
         height: 50%;
     }
     #tiles-container > .tile {
@@ -36,20 +53,24 @@ and (min-device-height : 480px) {
     }
 
     #smalltiles-container {
-    width: 100%;
-    position: fixed;
-    top: 83%;
-    height: 23%;
+        width: 100%;
+        position: fixed;
+        top: 83%;
+        height: 23%;
+        padding-left: 1px;
+
     }
     #smalltiles-container > .smalltiles {
         display: block;
         float: left;
         text-decoration: none;
         color: #FFF;
+        
     }
     #smalltiles-container > .smalltiles.quater {
         width: 23%;
         height: 66%;
+        display: block;
     }
     #smalltiles-container > .smalltiles.quater > i {
         padding-top:10%;
@@ -71,13 +92,13 @@ and (min-device-height : 568px) {
 
     .app > header {
 
-        height: 29%;
+        height: 30%;
     }
 
      #tiles-container {
         width: 100%;
         position: fixed;
-        top: 30%;
+        top: 30.5%;
         height: 50%;
     }
     #tiles-container > .tile {
