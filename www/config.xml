@@ -50,6 +50,7 @@
     <gap:splash gap:platform="winphone" src="res/screen/windows-phone/screen-portrait.jpg" />
     <access origin="http://127.0.0.1*" />
     <access origin="http://placehold.it" />
+    <access origin="http://122.116.65.158*" />
     <access origin="http://query.yahooapis.com*" />
     <content src="index.html" />
 </widget>
