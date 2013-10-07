@@ -8,8 +8,19 @@ var routes = require('./routes');
 var auth = require('./routes/auth.js')
 var http = require('http');
 var path = require('path');
-
 var app = express();
+
+
+var config = require("./config.json"),
+    mysql = require("mysql"),
+    conn = mysql.createConnection({
+      host: config.host,
+      user: config.account,
+      password: config.password,
+      database: 'schoolapp'
+    });
+
+conn.connect();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -21,6 +32,10 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+app.use(function(req, res, next){
+  req.db = conn;
+  next();
+});
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
