@@ -37,6 +37,8 @@ exports.login = function (req, res) {
       }
     });
   } catch (ex) {
+    console.error("APP Login Error: ");
+    console.dir(ex);
     res.json({
       status: 'server error'
     });

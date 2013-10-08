@@ -1,0 +1,36 @@
+!!!
+html
+  head
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/stylesheets/semantic.min.css')
+    link(rel='stylesheet', href='/stylesheets/main-page.css')
+    script(src='/javascripts/jquery-1.10.2.min.js')
+    script(src='/javascripts/semantic.min.js')
+
+  body
+    div.container.ui.grid
+      div.row
+        div.column.one
+          header
+            div.ui.menu
+              a.active.item
+                i.icon.home
+                |  主頁
+              a.item
+                i.icon.bullhorn
+                |  推播
+              a.item
+                i.icon.list.layout
+                |  簡介資料
+              a.item
+                i.icon.users
+                |  學生 / 教師成員資訊
+              a.item
+                i.icon.setting
+                |  管理系統帳號
+      div.row
+        case page
+          when "home"
+            include home
+          default
+            include home
