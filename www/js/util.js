@@ -1,1 +1,1 @@
-SERVER = "http://122.116.65.158:3000/"
+SERVER = "http://school.infinitibeat.com:9003/api/"

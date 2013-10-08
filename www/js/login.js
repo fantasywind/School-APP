@@ -32,11 +32,13 @@ document.addEventListener('deviceready', function(){
               break;
             default:
               alert('系統異常，請回報相關單位或檢查您的網路連線');
+              alert(result.status);
               break;
           }
         },
         error: function (err) {
           alert('系統異常，請回報相關單位或檢查您的網路連線');
+          
         }
       });
     } else if (anonyMail != ''){
