@@ -51,6 +51,7 @@
     <access origin="http://127.0.0.1*" />
     <access origin="http://10.0.1.21*" />
     <access origin="http://122.116.65.158*" />
+    <access origin="http://school.infinitibeat.com*" />
     <access origin="http://placehold.it" />
     <access origin="http://query.yahooapis.com*" />
     <content src="login.html" />
