@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var auth = require('./routes/auth.js');
 var admin = require('./routes/admin.js');
+var api = require('./routes/api.js');
 var http = require('http');
 var path = require('path');
 var app = express();
@@ -60,6 +61,8 @@ if ('development' == app.get('env')) {
 
 app.post('/api/login', auth.login);
 app.post('/api/anonymous', auth.anonymous);
+app.get('/api/introduce', api.introduce);
+app.get('/api/introduce/:unitId', api.introduce);
 app.get('/login', admin.login);
 app.post('/login', admin.doLogin);
 app.get('/', admin.mainPage);
