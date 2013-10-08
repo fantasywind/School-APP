@@ -41,5 +41,19 @@ exports.login = function (req, res) {
       status: 'server error'
     });
   }
+}
 
+exports.anonymous = function (req, res) {
+  var mail = req.body.mail;
+
+  try {
+    req.db.query("INSERT INTO anonymous (mail) VALUES (?)", [mail], function (err, result) {
+      if (err) throw err;
+      res.json 'added'
+    })
+  } catch (ex) {
+    res.json({
+      status: 'existed'
+    });
+  }
 }
