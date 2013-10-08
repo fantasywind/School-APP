@@ -1,0 +1,31 @@
+!!!
+html
+  head
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/stylesheets/semantic.min.css')
+    link(rel='stylesheet', href='/stylesheets/login-page.css')
+    script(src='/javascripts/jquery-1.10.2.min.js')
+    script(src='/javascripts/semantic.min.js')
+
+  body
+    header
+      h1.ui.header
+        | NTPU School APP Admin Login
+        div.sub.header 登入系統
+    div#main(role='login')
+      form.ui.form.segment(action='/login', method='post')
+        div.field
+          label 帳號
+          div.ui.left.labeled.icon.input
+            input(type='text', name='account', placeholder='請輸入管理員帳號')
+            i.icon.user
+            div.ui.corner.label
+              i.icon.asterisk
+        div.field
+          label 密碼
+          div.ui.left.labeled.icon.input
+            input(type='password', name='password', placeholder='請輸入管理員密碼')
+            i.icon.lock
+            div.ui.corner.label
+              i.icon.asterisk
+        button.ui.blue.submit.button 登入

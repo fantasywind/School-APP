@@ -1,0 +1,86 @@
+!!!
+html
+  head
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/stylesheets/semantic.min.css')
+    link(rel='stylesheet', href='/stylesheets/main-page.css')
+
+    if page == 'introduce'
+      if mode == 'article'
+        script(src='/javascripts/jquery-1.8.2.min.js')
+      else
+        script(src='/javascripts/jquery-1.10.2.min.js')
+
+    else
+      script(src='/javascripts/jquery-1.10.2.min.js')
+
+    script(src='/javascripts/semantic.min.js')
+
+  body
+    div.container.ui.grid
+      div.row
+        div.column.one
+          header
+            div.ui.menu
+              if page == 'home'
+                a.item.active(data-page='home', href='/')
+                  i.icon.home
+                  |  主頁
+              else
+                a.item(data-page='home', href='/')
+                  i.icon.home
+                  |  主頁
+              if page == 'push'
+                a.active.item(data-page='push', href='/push')
+                  i.icon.bullhorn
+                  |  推播
+              else
+                a.item(data-page='push', href='/push')
+                  i.icon.bullhorn
+                  |  推播
+              if page == 'introduce'
+                a.active.item(data-page='introduce', href='/introduce')
+                  i.icon.list.layout
+                  |  簡介資料
+              else
+                a.item(data-page='introduce', href='/introduce')
+                  i.icon.list.layout
+                  |  簡介資料
+              if page == 'member'
+                a.active.item(data-page='member', href='/member')
+                  i.icon.users
+                  |  學生 / 教師成員資訊
+              else
+                a.item(data-page='member', href='/member')
+                  i.icon.users
+                  |  學生 / 教師成員資訊
+              if page == 'setting'
+                a.active.item(data-page='setting', href='setting')
+                  i.icon.setting
+                  |  管理系統帳號
+              else
+                a.item(data-page='setting', href='setting')
+                  i.icon.setting
+                  |  管理系統帳號
+      div#content.row(data-content='#{page}')
+        case page
+          when "introduce"
+            if mode == 'list'
+              include introduce
+            else
+              include introduceArticle
+          when "home"
+            include home
+          default
+            include home
+    if page == 'introduce'
+      if mode == 'article'
+        link(rel='stylesheet', href='/stylesheets/jquery-ui-1.10.3.custom.min.css')
+        link(rel='stylesheet', href='/stylesheets/elrte.min.css')
+        script(src='/javascripts/jquery-ui-1.10.3.custom.min.js')
+        script(src='/javascripts/elrte.min.js')
+        script(src='/javascripts/i18n/elrte.zh_TW.js')
+        script(src='/javascripts/introduceArticle.js')
+
+    script(src='/javascripts/#{page}.js')
+    link(rel='stylesheet', href='/stylesheets/#{page}.css')

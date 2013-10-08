@@ -1,0 +1,38 @@
+div.column.one
+  h1.ui.header.dividing 系所與行政單位
+  if queryId != -1
+    button#back.button.ui
+      i.icon.angle.left
+      |  回上層
+  table.table.ui.segment(data-prev='#{queryId}')
+    thead
+      tr
+        th.wide.three 類型
+        th.wide.two 照片
+        th 名稱
+        th.wide.two
+    tbody
+      each unit, i in list
+        tr(data-id='#{unit.thisId}')
+          td.type
+            if unit.children
+              i.icon.folder.huge
+            else
+              i.icon.file.outline.huge
+              button.transform.button.ui.tiny.teal
+                i.icon.retweet
+                |  轉換並新增
+          td
+            img(src='#{unit.photo}')
+          td= unit.name
+          td
+            if !unit.children
+              button.delete.ui.button.negative.tiny
+                i.icon.remove
+                |  刪除
+    tfoot
+      tr
+        td(colspan='3')
+          a.button.ui.positive(href='/introduce/new/#{listId}')
+            i.icon.plus
+            |  新增簡介
