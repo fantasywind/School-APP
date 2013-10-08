@@ -49,7 +49,9 @@ exports.anonymous = function (req, res) {
   try {
     req.db.query("INSERT INTO anonymous (mail) VALUES (?)", [mail], function (err, result) {
       if (err) throw err;
-      res.json 'added'
+      res.json({
+        status: 'added'
+      })
     })
   } catch (ex) {
     res.json({
