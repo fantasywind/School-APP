@@ -1,0 +1,26 @@
+div.column.one
+  h1.ui.header.dividing
+    | 系所與行政單位
+    if target == 'new'
+      div.sub.header 新增文章
+    else
+      div.sub.header 編輯文章
+  div(style='margin-bottom: 24px;').segment.basic
+    a.ui.button(href='/introduce/#{queryId}')
+      i.icon.arrow.left
+      |  返回
+  form.ui.form.segment
+    div.field
+      label 文章標題
+      input#title(placeholder='請輸入單位或系所名稱', type='text', value='#{name}')
+    div.field
+      textarea#editor #{article}
+  div.actions.ui.right.aligned.segment.basic
+    if target == 'new'
+      button#add.button.ui.positive
+        i.icon.plus.large
+        |  新增
+    else
+      button#update.button.ui.positive
+        i.icon.save.large
+        |  更新

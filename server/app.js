@@ -66,6 +66,12 @@ app.get('/api/introduce/:unitId', api.introduce);
 app.get('/login', admin.login);
 app.post('/login', admin.doLogin);
 app.get('/', admin.mainPage);
+app.get('/introduce', admin.introduce);
+app.get('/introduce/:unitId', admin.introduce);
+app.get('/introduce/new/:unitId', admin.introduce);
+app.post('/introduce/new/:targetId', admin.newIntroduce);
+app.post('/introduce/:unitId', admin.updateIntroduce);
+app.delete('/introduce/:unitId', admin.deleteIntroduce);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

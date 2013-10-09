@@ -1,0 +1,6 @@
+.hover td{
+  background-color: #EFEFEF;
+}
+tbody td {
+  cursor: pointer;
+}
