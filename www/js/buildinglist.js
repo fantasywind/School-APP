@@ -5,7 +5,6 @@ var buildings;
 
 $('#buildingListPage').on('pageinit', function(event) 
 {
-	 
       getBuildingList();
 });
 
@@ -35,6 +34,11 @@ function getBuildingList() {
               $('#buildingList').listview('refresh');
               });
 }
+
+$("#SecListPage").bind("pagebeforeshow", function (e, data) {
+    $.mobile.silentScroll(0);
+    $.mobile.changePage.defaults.transition = 'slide';
+});
 /*function getBuildingList() {
 	$.getJSON(serviceURL, function(data) {
               $('#buildingList li').remove();
