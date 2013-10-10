@@ -1,28 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-            <!--<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />-->
-            <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
-            <script type="text/javascript" src="js/jquery.mobile-1.2.0.min.js"></script>
-            <link rel="stylesheet" type="text/css" href="css/index.css" />
-            <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.min.css" />
-            <link rel='stylesheet' type='text/css' href='css/font-awesome.min.css' />
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />-->
+    <script type="text/javascript" src="cordova-2.4.0.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.2.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/tab.css">
+    <script type="text/javascript" charset="utf-8" src="js/tab.js"></script>
+    <script src="js/tablinkview.js"></script>
     
-                
-                <title>最新消息</title>
-                </head>
-    <body>
-        <div data-role="header" data-theme="a" data-position="fixed">
-            <a href="index.html" data-rel="back" data-icon="arrow-l">返回</a>
-            <h1>最新消息</h1>
-            <div id='tiles-container'>
-                <a href='#' class='tile half belize-hole'><i class=''></i><span>北大 Chat</span></a>
-                <a href='#' class='tile half pomegranate'><i class='icon-user'></i><span>招生</span></a>
-                <a href='#' class='tile half green-tea'><i class='icon-list'></i><span>最新消息</span></a>
-                <a href='#' class='tile half wisteria'><i class='icon-book'></i><span>課表查詢</span></a>
+    <title>BP</title>
+</head>
+<body>
+    <div data-role="header" data-theme="a" data-position="fixed">
+        <a href="index.html" data-rel="back" data-icon="arrow-l">Back</a>
+        <h1>Body Pressure</h1>
+    </div><!-- /header -->
+        <div class="tab-container">
+            <div id="tab-1" class="tab-page" data-unit-id="1">
+                <div data-role="content">
+                             <ul id="tabList1" data-role="listview"></ul>
+                </div><!-- /tab-page -->
             </div>
-            </body>
+            
+            <div id="tab-2" class="tab-page" data-unit-id="2">
+                <div data-role="content">
+                             <ul id="tabList2" data-role="listview"></ul>
+                </div>
+            </div><!-- /tab-page -->
+            
+            <div id="tab-3" class="tab-page" data-unit-id="3">
+                 <div data-role="content">
+                             <ul id="tabList3" data-role="listview"></ul>
+                </div>
+            </div><!-- /tab-page -->
+            
+            <div id="tab-4" class="tab-page"  data-unit-id="4">
+                 <div data-role="content">
+                             <ul id="tabList4" data-role="listview"></ul>
+                </div>
+            </div><!-- /tab-page -->
+        </div><!-- /tab-container -->
+     <div data-role="footer" data-theme="a" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#" data-href="tab-1" class="ui-btn-active">全部</a></li>
+                <li><a href="#" data-href="tab-2">校園</a></li>
+                <li><a href="#" data-href="tab-3">在地</a></li>
+                <li><a href="#" data-href="tab-4">好康</a></li>
+            </ul>
+        </div><!-- /navbar -->
+    </div><!-- /footer -->
+    
+</body>
 </html>
