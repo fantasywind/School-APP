@@ -203,3 +203,20 @@ exports.newIntroduce = function (req, res) {
     })
   }
 }
+
+// 推播主頁面
+exports.push = function (req, res) {
+
+  try {
+    req.db.query("SELECT *, (SELECT name FROM notification_category WHERE notification_category.id = category_id) AS category FROM notification ORDER BY id DESC LIMIT 0, 100", function (err, row, field) {
+      if (err) throw err;
+
+      res.render('mainPage', {
+        page: 'push',
+        notifications: row
+      });
+    });
+  } catch (ex) {
+    console.error(ex);
+  }
+}

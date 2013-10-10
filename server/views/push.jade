@@ -1,0 +1,22 @@
+div.column.one
+  h1.ui.header.dividing 推播系統
+  div.ui.segment.basic
+    button.ui.button.positive
+      i.icon.plus
+      |  新增推播訊息
+  table.ui.table.segment
+    thead
+      tr
+        th 分類
+        th 標題
+        th 訊息
+        th 推送時間
+        th
+    tbody
+      each noti, i in notifications
+        tr
+          td= noti.category
+          td= noti.title
+          td= noti.message
+          td(data-timestamp='#{noti.push_time}')
+          td

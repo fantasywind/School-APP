@@ -10,6 +10,7 @@ var admin = require('./routes/admin.js');
 var api = require('./routes/api.js');
 var http = require('http');
 var path = require('path');
+//var apn = require("./routes/apn.js");
 var app = express();
 
 
@@ -72,6 +73,7 @@ app.get('/introduce/new/:unitId', admin.introduce);
 app.post('/introduce/new/:targetId', admin.newIntroduce);
 app.post('/introduce/:unitId', admin.updateIntroduce);
 app.delete('/introduce/:unitId', admin.deleteIntroduce);
+app.get('/push', admin.push);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
