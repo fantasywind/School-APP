@@ -40,14 +40,14 @@ document.addEventListener('deviceready', function(){
   function tokenHandler (result) {
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
-    alert('device token = ' + result);
+
 
     $.post(SERVER + 'push/register', { token: result, type: "ios" },
      function(data){
-       alert("Data Loaded: " + data);
+       //alert("Data Loaded: " + data);
      },'json');
 
-    
+         
   }
 
   function onNotificationAPN (event) {
