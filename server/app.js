@@ -73,6 +73,7 @@ app.get('/introduce/new/:unitId', admin.introduce);
 app.post('/introduce/new/:targetId', admin.newIntroduce);
 app.post('/introduce/:unitId', admin.updateIntroduce);
 app.delete('/introduce/:unitId', admin.deleteIntroduce);
+app.post('/api/push/register', api.registerPush);
 app.get('/push', admin.push);
 
 http.createServer(app).listen(app.get('port'), function(){

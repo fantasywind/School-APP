@@ -37,3 +37,20 @@ exports.introduce = function (req, res) {
     });
   }
 }
+
+// 註冊推播 Token
+exports.registerPush = function (req, res) {
+  var token = req.body.token,
+      type = req.body.type;
+
+  try {
+    req.db.query("INSERT INTO (type, token, member_id) VALUES (?, ?, ?)", [type, token, req.session.uid], function (err, row, field) {
+      if (err) throw err
+    });
+    res.json({
+      status: 'registered'
+    })
+  } catch (ex) {
+    console.error(ex);
+  } 
+}
