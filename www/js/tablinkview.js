@@ -1,10 +1,9 @@
 //var serviceURL = "http://school.infinitibeat.com/api/introduce";
-var serviceURL = "http://localhost/services/"
 $('#tabdeatilPage').live('pageshow', function(event) {
 	//var id = $(this).data("id");
 	var id = getUrlVars()["id"];
 	//alert(id);
-	displaydepartment(id);
+	displaypushmessage(id);
 });
 
 /*function displaydepartment(id) {
@@ -19,40 +18,14 @@ $('#tabdeatilPage').live('pageshow', function(event) {
   });
 }*/
 
-function displaydepartment(id) {
-  $.getJSON(serviceURL + 'getemployee.php?id='+id, function(data) {
-		var employee = data.item;
-	console.log(employee);
-	$('#employeePic').attr('src', 'pics/' + employee.picture);
-	$('#fullName').text(employee.firstName + ' ' + employee.lastName);
-	$('#employeeTitle').text(employee.title);
-	$('#city').text(employee.city);
-	console.log(employee.officePhone);
-	if (employee.managerId>0) {
-		$('#actionList').append('<li><a href="employeedetails.html?id=' + employee.managerId + '"><h3>View Manager</h3>' +
-				'<p>' + employee.managerFirstName + ' ' + employee.managerLastName + '</p></a></li>');
-	}
-	if (employee.reportCount>0) {
-		$('#actionList').append('<li><a href="reportlist.html?id=' + employee.id + '"><h3>View Direct Reports</h3>' +
-				'<p>' + employee.reportCount + '</p></a></li>');
-	}
-	if (employee.email) {
-		$('#actionList').append('<li><a href="mailto:' + employee.email + '"><h3>Email</h3>' +
-				'<p>' + employee.email + '</p></a></li>');
-	}
-	if (employee.officePhone) {
-		$('#actionList').append('<li><a href="tel:' + employee.officePhone + '"><h3>Call Office</h3>' +
-				'<p>' + employee.officePhone + '</p></a></li>');
-	}
-	if (employee.cellPhone) {
-		$('#actionList').append('<li><a href="tel:' + employee.cellPhone + '"><h3>Call Cell</h3>' +
-				'<p>' + employee.cellPhone + '</p></a></li>');
-		$('#actionList').append('<li><a href="sms:' + employee.cellPhone + '"><h3>SMS</h3>' +
-				'<p>' + employee.cellPhone + '</p></a></li>');
-	}
-	$('#actionList').listview('refresh');
-	
+function displaypushmessage(id) {
+  $.getJSON(SERVER + 'push/' + id, function(data) {
+    
+		var pushmessage = data.message;
+	var content = pushmessage.message;
 
+  $('#detail').html(content);
+  
   });
 }
 

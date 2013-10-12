@@ -6,6 +6,10 @@ var buildings;
 $('#buildingListPage').on('pageinit', function(event) 
 {
       getBuildingList();
+     
+      
+     // $('#buildingList a').find("[data-unit-id='1']").trigger('click');
+      //alert($('#buildingList a').length);
 });
 
 function getBuildingList() {
@@ -21,18 +25,21 @@ function getBuildingList() {
                                                '<h4>' + buildings.name + '</h4></span></a></li>');
                       
 
-                      $('#buildingList a').on('click', function(e) {
-                      	    $("h1", $("#SecListPage")).text($(this).data('name'));
-					        $("#SecListPage").data("id",$(this).data('unitId'));
-					       
-					    });
+                          $('#buildingList a').on('click', function(e) {
+                          	    $("h1", $("#SecListPage")).text($(this).data('name'));
+    					                   $("#SecListPage").data("id",$(this).data('unitId'));
+    					       
+    					           });
                        
                      });
 
               
              
               $('#buildingList').listview('refresh');
+              push();
               });
+
+
 }
 
 $("#SecListPage").bind("pagebeforeshow", function (e, data) {
