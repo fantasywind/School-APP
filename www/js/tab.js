@@ -1,6 +1,6 @@
-//var serviceURL = "http://school.infinitibeat.com/api/introduce";
-var serviceURL = "http://localhost/services/"
-var buildings;
+//var servicepushURL = "http://school.infinitibeat.com/api/push";
+//var serviceURL = "http://localhost/services/"
+var tablists;
 $(document).bind('pageinit', function(){
     //tabpageHeight = $('.ui-page-active').height() - $('.ui-page-active').children('div[data-role=header]').height();
     //$('.tab-page').css('height', tabpageHeight);
@@ -57,16 +57,19 @@ $(document).bind('pageinit', function(){
 
 function getTabList(id) {
       
-    $.getJSON(serviceURL + 'getemployees.php', function(data) {
+    $.getJSON(SERVER + 'push/list/' + id, function(data) {
         $('#tabList' + id  +' li').remove();
-        //alert(data.items);
-        buildings = data.items;
-        $.each(buildings, function(index, buildings) {
-            $('#tabList' + id).append('<li><a href="tablinkpage.html?id=' + buildings.id + '">' +
-                    '<img src="pics/' + buildings.picture + '"/>' +
-                    '<h4>' + buildings.firstName + ' ' + buildings.lastName + '</h4>' +
-                    '<p>' + buildings.title + '</p>' +
-                    '<span class="ui-li-count">' + buildings.reportCount + '</span></a></li>');
+        
+        tablists = data.list;
+
+        //tablists.push_time = new XDate(tablists.push_time).toString("MMM d, yyyy");
+        $.each(tablists, function(index, tablists) {
+          tablists.push_time = new XDate(tablists.push_time).toString("yyyy-MM-dd");
+           
+            $('#tabList' + id).append('<li><a href="tablinkpage.html?id=' + tablists.id + '">' +
+                    '<h1>'+'[ ' + tablists.category + ']' + ' ' + tablists.message + '</h1>' +
+                    '<p>' + tablists.push_time + '</p>' +
+                    '</a></li>');
 
              $('#tabList' + id + 'a').on('click', function(e) {
                                     $("h1", $("#tabdeatilPage")).text($(this).data('name'));
@@ -78,5 +81,14 @@ function getTabList(id) {
 
         });
         $('#tabList' + id).listview('refresh');
+        //push();
     });
+}
+
+function push(){
+
+  //alert($("#buildingList a[data-unit-id='1']").trigger('click'));
+  //alert($('#buildingList').find("a[data-unit-id='1']").length);
+  $("#buildingList a[data-unit-id='1']").trigger('click');
+
 }

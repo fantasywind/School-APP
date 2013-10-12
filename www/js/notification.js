@@ -66,6 +66,19 @@ document.addEventListener('deviceready', function(){
     if ( event.badge )
     {
         pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
+
     }
   }
 });
+
+document.addEventListener("resume", pushrevoke, false);
+
+function pushrevoke(){
+  
+  if(localStorage.isTrue){
+    location.href = "news.html";
+    //alert($('#buildingList').length);
+    //alert(id);
+   //$('#buildingList a').find("[data-unit-id='1']").trigger('click'); 
+  }
+}
