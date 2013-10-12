@@ -44,7 +44,7 @@ exports.registerPush = function (req, res) {
       type = req.body.type;
 
   try {
-    req.db.query("INSERT INTO (type, token, member_id) VALUES (?, ?, ?)", [type, token, req.session.uid], function (err, row, field) {
+    req.db.query("INSERT INTO notification_token (type, token, member_id) VALUES (?, ?, ?)", [type, token, req.session.uid], function (err, row, field) {
       if (err) throw err
     });
     res.json({
