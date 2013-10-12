@@ -1,4 +1,5 @@
 document.addEventListener('deviceready', function(){
+  
   $("form").on('submit autologin', function (e){
     e.preventDefault(); 
     var stuNum = $("input[name='student_id']").val(),
