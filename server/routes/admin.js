@@ -407,7 +407,5 @@ exports.pushMsg = function (req, res) {
   } catch (ex) {
     console.error(ex);
   }
-
-  var token = "8d6a67068b6affda87d44ddb11d96001949c3683e1b70959671cec32f784359f";
   
 }
