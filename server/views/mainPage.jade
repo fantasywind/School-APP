@@ -76,6 +76,9 @@ html
               include push
             else
               include makePush
+          when "member"
+            if mode == "list"
+              include memberList
           default
             include home
     if page == 'introduce'

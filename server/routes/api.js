@@ -43,6 +43,13 @@ exports.registerPush = function (req, res) {
   var token = req.body.token,
       type = req.body.type;
 
+  if (req.session.uid === undefined) {
+    res.json({
+      status: 'login plz'
+    })
+    return false;
+  }
+
   try {
     req.db.query("INSERT INTO notification_token (type, token, member_id) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = ?", [type, token, req.session.uid, token], function (err, row, field) {
       if (err) throw err

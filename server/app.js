@@ -8,6 +8,7 @@ var routes = require('./routes');
 var auth = require('./routes/auth.js');
 var admin = require('./routes/admin.js');
 var api = require('./routes/api.js');
+var member = require('./routes/member.js');
 var http = require('http');
 var path = require('path');
 var app = express();
@@ -80,6 +81,8 @@ app.get('/push', admin.push);
 app.post('/push', admin.makePushSave);
 app.get('/push/new', admin.makePush);
 app.post('/push/:msgId', admin.pushMsg);
+app.get('/member', member.list);
+app.post('/member', member.addMembers);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
