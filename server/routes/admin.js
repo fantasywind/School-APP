@@ -390,9 +390,9 @@ exports.pushMsg = function (req, res) {
           });
 
           // Update Status
-          /*req.db.query("UPDATE notification SET status = 'pushed', push_time = now() WHERE id = ?", [msgId], function (err, result) {
+          req.db.query("UPDATE notification SET status = 'pushed', push_time = now() WHERE id = ?", [msgId], function (err, result) {
             if (err) throw err;
-          });*/
+          });
 
           res.json({
             status: 'pushed'
