@@ -1,4 +1,8 @@
-crypto = require('crypto');
+var crypto = require('crypto'),
+    apns = require("apn"),
+    errorCallback = function (err, notification) {
+      console.error("Error: " + err);
+    };
 
 exports.login = function (req, res) {
   res.render('login')
@@ -213,10 +217,177 @@ exports.push = function (req, res) {
 
       res.render('mainPage', {
         page: 'push',
+        mode: 'list',
         notifications: row
       });
     });
   } catch (ex) {
     console.error(ex);
   }
+}
+
+// 新增推播
+exports.makePush = function (req, res) {
+  try {
+    req.db.query("SELECT * FROM notification_category", function (err, row, field) {
+      if (err) throw err;
+      
+      res.render('mainPage', {
+        page: 'push',
+        node: 'make',
+        category: row
+      });
+    });
+  } catch (ex) {
+    console.error(ex);
+  }
+
+}
+
+// 取得推播列表
+exports.getPushList = function (req, res) {
+  var category = req.params.categoryId, sql = '';
+
+  if (category === null || category === undefined) {
+    category = -1;
+  }
+  category = parseInt(category, 10)
+
+  // Generate sql
+  if (category === -1) {
+    sql = "SELECT (SELECT name FROM notification_category WHERE id = category_id) AS category, message, id, push_time FROM notification WHERE status = 'pushed' ORDER BY id DESC"
+  } else {
+    sql = "SELECT (SELECT name FROM notification_category WHERE id = category_id) AS category, message, id, push_time FROM notification WHERE status = 'pushed' AND category_id = ? ORDER BY id DESC"
+  }
+  
+  try {
+    req.db.query(sql, [category], function (err, row, field) {
+      if (err) throw err;
+
+      res.json({
+        status: 'success',
+        list: row
+      })
+    });
+  } catch (ex) {
+    console.error(ex);
+  }
+}
+
+// 取德推播資料
+exports.getPushMsg = function (req, res) {
+  var msgId = parseInt(req.params.msgId, 10);
+
+  if (isNaN(msgId) || msgId <= 0) {
+    res.json({
+      status: 'null'
+    });
+  } else {
+    try {
+      req.db.query("SELECT *, (SELECT name FROM notification_category WHERE id = category_id) AS category FROM notification WHERE status = 'pushed' AND id = ?", msgId, function (err, row, field) {
+        if (err) throw err;
+
+        if (row.length) {
+          res.json({
+            status: 'msg',
+            message: row[0]
+          });
+        } else {
+          res.json({
+            status: 'null'
+          });
+        }
+      });
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
+}
+
+// 記錄新推播
+exports.makePushSave = function (req, res) {
+  var category = req.body.category,
+      message = req.body.message,
+      article = req.body.article;
+
+  try {
+    req.db.query("INSERT INTO notification (category_id, message, article) VALUES (?, ?, ?)", [category, message, article], function (err, result) {
+      if (err) throw err;
+    });
+
+    res.redirect('/push');
+  } catch (ex) {
+    console.error(ex);
+  }
+
+}
+
+// 推送通知
+exports.pushMsg = function (req, res) {
+  var msgId = parseInt(req.params.msgId, 10);
+
+  if (isNaN(msgId) || msgId <= 0) {
+    res.json({
+      status: 'invaild push id'
+    });
+    return false;
+  }
+
+  var options = {
+    cert: "./cert/cert.pem",
+    key: "./cert/key.pem",
+    gateway: 'gateway.sandbox.push.apple.com',
+    port: 2195,
+    errorCallback: errorCallback
+  };
+  var apnsConnection = new apns.Connection(options);
+
+  var tokens = [];
+
+  // Fetch Tokens
+  try {
+    req.db.query("SELECT token FROM notification_token WHERE type = 'ios'", function (err, row, field) {
+      if (err) throw err;
+
+      for (var i = 0; i < row.length; i += 1) {
+        tokens.push(row[i].token);
+      }
+
+      req.db.query("SELECT * FROM notification WHERE id = ?", [msgId], function (err, row, field) {
+
+        if (row.length) {
+          var note = new apns.Notification();
+
+          note.expiry = Math.floor(Date.now() / 1000) + 3600 // 1hr
+          note.badge = 1;
+          note.sound = "ping.aiff"
+          note.alert = row[0].message
+          note.payload = {
+            messageFrom: '/api/push/' + msgId,
+            messageId: msgId
+          }
+
+          apnsConnection.pushNotification(note, tokens);
+
+          req.db.query("UPDATE notification SET status = 'pushed', push_time = now() WHERE id = ?", [msgId], function (err, result) {
+            if (err) throw err;
+          });
+
+          res.json({
+            status: 'pushed'
+          });
+        } else {
+          res.json({
+            status: 'invaild push msg id'
+          });
+        }
+
+      });
+    });
+  } catch (ex) {
+    console.error(ex);
+  }
+
+  var token = "8d6a67068b6affda87d44ddb11d96001949c3683e1b70959671cec32f784359f";
+  
 }

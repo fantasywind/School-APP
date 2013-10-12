@@ -1,22 +1,29 @@
 div.column.one
   h1.ui.header.dividing 推播系統
   div.ui.segment.basic
-    button.ui.button.positive
+    a.ui.button.positive(href='/push/new')
       i.icon.plus
       |  新增推播訊息
   table.ui.table.segment
     thead
       tr
         th 分類
-        th 標題
         th 訊息
+        th 新增時間
         th 推送時間
         th
     tbody
       each noti, i in notifications
-        tr
+        tr(data-id='#{noti.id}')
           td= noti.category
-          td= noti.title
           td= noti.message
-          td(data-timestamp='#{noti.push_time}')
+          td.parse-time(data-timestamp='#{noti.add_time}')
+          if noti.push_time != '0000-00-00 00:00:00'
+            td.parse-time(data-timestamp='#{noti.push_time}')
+          else
+            td.push_time
           td
+            if noti.status == 'wait'
+              button.ui.button.positive
+                i.icon.bullhorn
+                |  推送
