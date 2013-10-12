@@ -1,5 +1,6 @@
 var crypto = require('crypto'),
     apns = require("apn"),
+    gcm = require('node-gcm'),
     errorCallback = function (err, notification) {
       console.error("Error: " + err);
     };
@@ -342,20 +343,27 @@ exports.pushMsg = function (req, res) {
   };
   var apnsConnection = new apns.Connection(options);
 
-  var tokens = [];
+  var iosTokens = [];
+  var androidTokens = [];
 
   // Fetch Tokens
   try {
-    req.db.query("SELECT token FROM notification_token WHERE type = 'ios'", function (err, row, field) {
+    req.db.query("SELECT token, type FROM notification_token", function (err, row, field) {
       if (err) throw err;
 
       for (var i = 0; i < row.length; i += 1) {
-        tokens.push(row[i].token);
+        if (row[i].type === 'ios') {
+          iosTokens.push(row[i].token);
+        } else {
+          androidTokens.push(row[i].token);
+        }
       }
 
       req.db.query("SELECT * FROM notification WHERE id = ?", [msgId], function (err, row, field) {
 
         if (row.length) {
+      
+          // APN Send
           var note = new apns.Notification();
 
           note.expiry = Math.floor(Date.now() / 1000) + 3600 // 1hr
@@ -367,11 +375,24 @@ exports.pushMsg = function (req, res) {
             messageId: msgId
           }
 
-          apnsConnection.pushNotification(note, tokens);
+          apnsConnection.pushNotification(note, iosTokens);
 
-          req.db.query("UPDATE notification SET status = 'pushed', push_time = now() WHERE id = ?", [msgId], function (err, result) {
-            if (err) throw err;
+          // Android GCM Service
+          var sender = new gcm.Sender('1033044943941');
+
+          var message = new gcm.Message();
+          message.addDataWithKeyValue('message', row[0].message);
+          message.addDataWithKeyValue('pushId', msgId);
+
+          sender.send(message, androidTokens, 4, function (err, result) {
+            if (err) console.error(err);
+            console.info(result);
           });
+
+          // Update Status
+          /*req.db.query("UPDATE notification SET status = 'pushed', push_time = now() WHERE id = ?", [msgId], function (err, result) {
+            if (err) throw err;
+          });*/
 
           res.json({
             status: 'pushed'
@@ -381,7 +402,6 @@ exports.pushMsg = function (req, res) {
             status: 'invaild push msg id'
           });
         }
-
       });
     });
   } catch (ex) {
