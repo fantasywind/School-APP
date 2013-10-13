@@ -1,1 +1,0 @@
-SERVER = "http://school.infinitibeat.com/api/"

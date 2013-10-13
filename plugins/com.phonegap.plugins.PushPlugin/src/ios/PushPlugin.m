@@ -34,7 +34,6 @@
 @synthesize notificationCallbackId;
 @synthesize callback;
 
-
 - (void)unregister:(CDVInvokedUrlCommand*)command;
 {
 	self.callbackId = command.callbackId;

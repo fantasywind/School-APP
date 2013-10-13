@@ -13,43 +13,41 @@
     <link rel="stylesheet" type="text/css" href="css/tab.css">
     <script type="text/javascript" charset="utf-8" src="js/tab.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/xdate.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/util.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
-    <script src="js/tablinkview.js"></script>
-    
-    <title>BP</title>
+    <script src="js/tablinkview.js"></script>   
+    <title>最新消息</title>
 </head>
 <body>
     <div data-role="header" data-theme="a" data-position="fixed">
-        <a href="index.html" data-rel="back" data-icon="arrow-l">Back</a>
-        <h1>Body Pressure</h1>
+        <a href='#' class='backToIndex' data-icon="arrow-l">返回</a>
+        <h1>最新消息</h1>
     </div><!-- /header -->
-        <div class="tab-container">
-            <div id="tab-1" class="tab-page" data-unit-id="-1">
-                <div data-role="content">
-                             <ul id="tabList-1" data-role="listview"></ul>
-                </div><!-- /tab-page -->
+    <div class="tab-container">
+        <div id="tab-1" class="tab-page" data-unit-id="-1">
+            <div data-role="content">
+                <ul id="tabList-1" data-role="listview"></ul>
+            </div><!-- /tab-page -->
+        </div>
+        
+        <div id="tab-2" class="tab-page" data-unit-id="1">
+            <div data-role="content">
+                <ul id="tabList1" data-role="listview"></ul>
             </div>
-            
-            <div id="tab-2" class="tab-page" data-unit-id="1">
-                <div data-role="content">
-                             <ul id="tabList1" data-role="listview"></ul>
-                </div>
-            </div><!-- /tab-page -->
-            
-            <div id="tab-3" class="tab-page" data-unit-id="2">
-                 <div data-role="content">
-                             <ul id="tabList2" data-role="listview"></ul>
-                </div>
-            </div><!-- /tab-page -->
-            
-            <div id="tab-4" class="tab-page"  data-unit-id="3">
-                 <div data-role="content">
-                             <ul id="tabList3" data-role="listview"></ul>
-                </div>
-            </div><!-- /tab-page -->
-        </div><!-- /tab-container -->
-     <div data-role="footer" data-theme="a" data-position="fixed">
+        </div><!-- /tab-page -->
+        
+        <div id="tab-3" class="tab-page" data-unit-id="2">
+             <div data-role="content">
+                <ul id="tabList2" data-role="listview"></ul>
+            </div>
+        </div><!-- /tab-page -->
+        
+        <div id="tab-4" class="tab-page"  data-unit-id="3">
+             <div data-role="content">
+                <ul id="tabList3" data-role="listview"></ul>
+            </div>
+        </div><!-- /tab-page -->
+    </div><!-- /tab-container -->
+    <div data-role="footer" data-theme="a" data-position="fixed">
         <div data-role="navbar">
             <ul>
                 <li><a href="#" data-href="tab-1" class="ui-btn-active">全部</a></li>
@@ -59,6 +57,5 @@
             </ul>
         </div><!-- /navbar -->
     </div><!-- /footer -->
-    
 </body>
 </html>
