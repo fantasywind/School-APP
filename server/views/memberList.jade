@@ -1,0 +1,27 @@
+div.column.one
+  h1.ui.header.dividing 學生 / 教師成員資訊
+  div.ui.header
+    button.ui.button.positive.small#add
+      i.icon.plus
+      |  新增帳號
+    p.sub.header 上傳 .csv 檔案匯入學生或教師成員
+  form(action='/member', method='post', enctype='multipart/form-data')
+    input(type='file', name='list', accept='text/csv')
+  div.segment.piled.ui
+    table.ui.table
+      thead
+        tr
+          th 帳號類型
+          th 姓名
+          th 學號
+          th
+      tbody
+        each member, i in members
+          tr(data-id='#{member.id}')
+            td= member.role
+            td= member.name
+            td= member.account
+            td
+              button.ui.button.mini.negative
+                i.icon.remove
+                |  刪除

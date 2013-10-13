@@ -1,0 +1,25 @@
+div.column.one
+  h1.ui.header.dividing 新增推播
+  div.ui.segment.basic
+    a.ui.button(href='/push')
+      i.icon.arrow.left
+      |  返回清單
+  form.ui.form.segment(method='post', action='/push')
+    div.field
+      label 推播類型
+      div.ui.selection.dropdown
+        input(type='hidden', name='category', value='#{category[0].id}')
+        i.dropdown.icon
+        div.default.text #{category[0].name}
+        div.ui.menu.transition.hidden
+          each item, i in category
+            div.item(data-value='#{item.id}') #{item.name}
+    div.field
+      label 推送文字
+      input#message(placeholder='請輸入推播文字', type='text', name='message')
+    div.field
+      textarea#editor(name='article') #{article}
+    div.actions.ui.right.aligned.segment.basic
+      button(type='submit')#add.button.ui.positive
+        i.icon.plus.large
+        |  新增
