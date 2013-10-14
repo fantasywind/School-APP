@@ -17,196 +17,176 @@
  * under the License.
  */
 * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+  -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+  -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+  background-color: #000;
+  font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+  height:100%;
+  margin:0px;
+  padding:0px;
+  text-transform:uppercase;
+  width:100%;
+}
+
+/* iOS7 Status Bar Fix */
+body.ios7 div[data-role='page']::before {
+  content: '';
+  display: block;
+  background-color: #DADADA;
+  height: 20px;
+  width: 100%;
+}
+
+#main-menu {
+  background-color: #000;
+}
+
+#main-menu > .header {
+  height: 140pt;
+  width: 100%;
+  margin-bottom: 5pt;
+}
+
+body.ios7 #main-menu > .header {
+  height: 124pt;
+}
+
+#header-cover {
+  width: 100%;
+  height: 100%;
+  background-image: url(../img/cover@2x.JPG);
+  display: block;
+}
+
+#main-menu li {
+  list-style: none;
+}
+
+#main-menu .tiles-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#main-menu .tile {
+  color: #FFF;
+  width: 20%;
+  height: 46pt;
+  text-align: center;
+  padding: 2pt 1%;
+  float: left;
+}
+
+#main-menu .tile.x2 {
+  width: 43%;
+  height: 74pt;
+  padding: 18pt 2%;
+}
+
+#main-menu .tile > i {
+  font-size: 26pt;
+  margin-top: 4pt;
+}
+
+#main-menu .tile > span {
+  font-size: 8pt;
+  margin-top: 2pt;
+}
+
+#main-menu .tile.x2 > i {
+  font-size: 48pt;
+  margin-top: 4pt;
+}
+
+#main-menu .tile.x2 > span {
+  font-size: 15pt;
+  margin-top: 10pt;
+}
+
+#main-menu .tile:nth-child(odd) {
+  margin: 0 1.75% 5pt 1%;
+}
+
+#main-menu .tile:nth-child(even) {
+  margin: 0 1% 5pt 1.75%;
+}
+
+#main-menu .tile.x2:nth-child(odd) {
+  margin: 0 1% 5pt 2%;
+}
+
+#main-menu .tile.x2:nth-child(even) {
+  margin: 0 2% 5pt 1%;
+}
+
+#main-menu .left-margin-x2 {
+  margin: 0 1% 5pt 2% !important;
+}
+
+#main-menu .right-margin-x2 {
+  margin: 0 2% 5pt 1% !important;
+}
+
+#main-menu .tile > * {
+  display: block;
+}
+
+.green-tea {
+  background-color: #16a085;
+}
+.belize-hole {
+  background-color: #2980b9;
+}
+.pumpkin {
+  background-color: #d35400;
+}
+.wisteria {
+  background-color: #8e44ad;
+}
+.pomegranate {
+  background-color: #c0392b;
+}
+.orange-juice {
+  background-color: #FF9D37;
+}
+.deep-blue {
+  background-color: #5755FF;
+}
+.blue {
+  background-color: #1989FF;
+}
+.light-green {
+  background-color: #00BE61;
 }
 .clearfix:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 .clearfix {
-    display: inline-block;
+  display: inline-block;
 }
 
 html[xmlns] .clearfix {
-    display: block;
+  display: block;
 }
 
 * html .clearfix {
-    height: 1%;
+  height: 1%;
 }
-
-
-body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#000000;
-    background-image:linear-gradient(top, #000000 0%, #000000 51%);
-    background-image:-webkit-linear-gradient(top, #000000 0%, #000000 51%);
-    background-image:-ms-linear-gradient(top, #000000 0%, #000000 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #000000),
-        color-stop(0.51, #000000)
-    );
-    background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
-    height:100%;
-    margin:0px;
-    padding:0px;
-    text-transform:uppercase;
-    width:100%;
-}
-
-/* Container */
-.app {
-    position:absolute;             /* position in the center of the screen */
-    left: 0;
-    top: 0;
-    height: 100%;                   /* text area height */
-    width: 100%;                   /* text area width */
-    text-align: center;    /* image height is 200px (bottom 20px are overlapped with text) */
-}
-
-
-/* Customerize */
-/* Header */
-.app > header {
-    height: 105px;
-    width: 100%;
-    border-bottom: 1px solid #555;
-    background-image: url(../img/cover@2x.JPG);
-    background-repeat: no-repeat;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    left: 0;
-}
-#weather {
-    width: 105px;
-    background-color: rgba(0, 0, 0, 0.4);
-    /*margin: 55px 0 0 15px;*/
-    min-height: 42px;
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-}
-#weather-image {
-    float: left;
-    width: 30px;
-    height: 30px;
-    margin: 6px;
-    background-image: url(http://placehold.it/30x30);
-}
-#temp {
-    display: inline;
-}
-#temp-container {
-    margin-top: 3px;
-}
-#weather .info {
-    margin: 6px 4px;
-    padding: 0;
-    float: left;
-}
-#weather .info > span {
-    color: #FFF;
-    text-align: center;
-    font-size: 0.8em;
-    display: block;
-}
-#tiles-container {
-    width: 100%;
-    position: fixed;
-    top: 130px;
-    height: 350px;
-}
-#tiles-container > .tile {
-    display: block;
-    float: left;
-    text-decoration: none;
-    color: #FFF;
-}
-#tiles-container > .tile.half {
-    width: 48%;
-    height: 120px;
-    margin: 1%;
-}
-#tiles-container > .tile.half > i {
-    font-size: 4em;
-    display: block;
-    margin: 28px 0 14px 0;
-}
-#tiles-container > .tile.half > span {
-    font-size: 1.4em;
-}
-.green-tea {
-    background-color: #16a085;
-}
-.belize-hole {
-    background-color: #2980b9;
-}
-.pumpkin {
-    background-color: #d35400;
-}
-.wisteria {
-    background-color: #8e44ad;
-}
-.pomegranate {
-    background-color: #c0392b;
-}
-.orange-juice {
-    background-color: #FF9D37;
-}
-.deep-blue {
-    background-color: #5755FF;
-}
-.blue {
-    background-color: #1989FF;
-}
-.light-green {
-    background-color: #00BE61;
-}
-
-#smalltiles-container {
-    width: 100%;
-    position: absolute;
-    bottom: 0px;
-    height: 100px;
-}
-#smalltiles-container > .smalltiles {
-    display: block;
-    float: left;
-    text-decoration: none;
-    color: #FFF;
-}
-#smalltiles-container > .smalltiles.quater {
-    width: 23%;
-    height: 80px;
-    margin: 1%;
-}
-#smalltiles-container > .smalltiles.quater > i {
-    font-size: 4em;
-    display: block;
-    margin: 0px 0 4px 0;
-}
-#smalltiles-container > .smalltiles.quater > span {
-    font-size: 1.4em;
-}
-
-div.explore_area {
-    position:relative;
-    width:400px;
-    height:340px;
-    overflow:auto;
-}
-
-
