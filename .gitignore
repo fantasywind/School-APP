@@ -1,3 +1,4 @@
 merges/
-platforms/
+platforms/*
+plugins/*
 .DS_Store
