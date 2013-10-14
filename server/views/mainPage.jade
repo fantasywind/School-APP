@@ -55,13 +55,17 @@ html
                   i.icon.users
                   |  學生 / 教師成員資訊
               if page == 'setting'
-                a.active.item(data-page='setting', href='setting')
+                a.active.item(data-page='setting', href='/setting')
                   i.icon.setting
                   |  管理系統帳號
               else
-                a.item(data-page='setting', href='setting')
+                a.item(data-page='setting', href='/setting')
                   i.icon.setting
                   |  管理系統帳號
+
+              a.active.item(data-page='setting', href='/logout')
+                i.icon.setting
+                |   登出
       div#content.row(data-content='#{page}')
         case page
           when "introduce"
@@ -79,6 +83,16 @@ html
           when "member"
             if mode == "list"
               include memberList
+          when "setting"
+            if mode == "list"
+              include settingList
+            else
+              include makeAccount
+           when "logout"
+            if mode == "list"
+              include 
+            else
+              include settingList
           default
             include home
     if page == 'introduce'

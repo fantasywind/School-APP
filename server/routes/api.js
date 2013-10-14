@@ -13,12 +13,13 @@ exports.introduce = function (req, res) {
           list: row
         });
       } else {
-        req.db.query("SELECT * FROM introduce WHERE unit_id = ?", [unitID], function (err, row, field) {
+        req.db.query("SELECT *, (SELECT name FROM unit WHERE id = unit_id) AS title FROM introduce WHERE unit_id = ?", [unitID], function (err, row, field) {
           if (err) throw err;
 
           if (row.length) {
             res.json({
               status: 'introduce',
+              title: row[0].title,
               content: row[0].content
             });
           } else {
@@ -60,4 +61,20 @@ exports.registerPush = function (req, res) {
   } catch (ex) {
     console.error(ex);
   } 
+}
+
+exports.pushCategory = function (req, res) {
+
+  try {
+    req.db.query("SELECT *, (SELECT COUNT(*) FROM notification WHERE category_id = notification_category.id) AS count FROM notification_category ORDER BY count DESC", function (err, row, field) {
+      if (err) throw err;
+
+      res.json({
+        status: 'success',
+        category: row
+      });
+    });
+  } catch (ex) {
+    console.error(ex);
+  }
 }

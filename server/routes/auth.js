@@ -23,7 +23,10 @@ exports.login = function (req, res) {
           req.session.name = data.name;
           req.session.account = data.account;
           res.json({
-            status: 'logined'
+            status: 'logined',
+            name: data.name,
+            account: data.account,
+            id: data.id
           });
         } else {
           res.json({

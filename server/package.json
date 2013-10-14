@@ -10,4 +10,8 @@
     "jade": "*",
     "stylus": "*",
     "mysql": "*",
-    "
+    "apn": "*",
+    "node-gcm": "*",
+    "randomstring": "*"
+  }
+}

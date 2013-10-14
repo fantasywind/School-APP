@@ -9,6 +9,11 @@ exports.login = function (req, res) {
   res.render('login')
 }
 
+exports.logout = function (req, res) {
+  req.session.destroy();
+  res.redirect('/login');
+}
+
 exports.doLogin = function (req, res) {
 
   var account = req.body.account,
@@ -256,9 +261,9 @@ exports.getPushList = function (req, res) {
 
   // Generate sql
   if (category === -1) {
-    sql = "SELECT (SELECT name FROM notification_category WHERE id = category_id) AS category, message, id, push_time FROM notification WHERE status = 'pushed' ORDER BY id DESC"
+    sql = "SELECT (SELECT name FROM notification_category WHERE id = category_id) AS category, message, id, push_time FROM notification WHERE status = 'pushed' ORDER BY push_time DESC"
   } else {
-    sql = "SELECT (SELECT name FROM notification_category WHERE id = category_id) AS category, message, id, push_time FROM notification WHERE status = 'pushed' AND category_id = ? ORDER BY id DESC"
+    sql = "SELECT (SELECT name FROM notification_category WHERE id = category_id) AS category, message, id, push_time FROM notification WHERE status = 'pushed' AND category_id = ? ORDER BY push_time DESC"
   }
   
   try {

@@ -9,6 +9,7 @@ var auth = require('./routes/auth.js');
 var admin = require('./routes/admin.js');
 var api = require('./routes/api.js');
 var member = require('./routes/member.js');
+var setting = require('./routes/setting.js');
 var http = require('http');
 var path = require('path');
 var app = express();
@@ -64,6 +65,7 @@ app.post('/api/login', auth.login);
 app.post('/api/anonymous', auth.anonymous);
 app.get('/api/introduce', api.introduce);
 app.get('/api/introduce/:unitId', api.introduce);
+app.get('/api/push/category', api.pushCategory);
 app.get('/api/push/list', admin.getPushList);
 app.get('/api/push/list/:categoryId', admin.getPushList);
 app.get('/api/push/:msgId', admin.getPushMsg);
@@ -83,6 +85,11 @@ app.get('/push/new', admin.makePush);
 app.post('/push/:msgId', admin.pushMsg);
 app.get('/member', member.list);
 app.post('/member', member.addMembers);
+app.get('/setting', setting.list);
+app.get('/setting/new', setting.makeAccount);
+app.post('/setting', setting.makeAccountSave);
+app.delete('/setting/:acId', setting.deleteAccount);
+app.get('/logout',admin.logout);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
