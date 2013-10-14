@@ -341,7 +341,16 @@ exports.pushMsg = function (req, res) {
     port: 2195,
     errorCallback: errorCallback
   };
+  // Stanney Debug
+  var options2 = {
+    cert: "./cert/cert2.pem",
+    key: "./cert/key2.pem",
+    gateway: 'gateway.sandbox.push.apple.com',
+    port: 2195,
+    errorCallback: errorCallback
+  };
   var apnsConnection = new apns.Connection(options);
+  var apnsConnection2 = new apns.Connection(options2); // Stanney Debug
 
   var iosTokens = [];
   var androidTokens = [];
@@ -376,6 +385,7 @@ exports.pushMsg = function (req, res) {
           }
 
           apnsConnection.pushNotification(note, iosTokens);
+          apnsConnection2.pushNotification(note, iosTokens);
 
           // Android GCM Service
           var sender = new gcm.Sender('1033044943941');

@@ -9,6 +9,5 @@
     "express": "3.3.8",
     "jade": "*",
     "stylus": "*",
-    "mysql": "*"
-  }
-}
+    "mysql": "*",
+    "
