@@ -164,6 +164,10 @@ body.ios7 #login-btn {
   display: block;
 }
 
+#notification-category a.active {
+  background-color: #d35400 !important;
+}
+
 .green-tea {
   background-color: #16a085;
 }

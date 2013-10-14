@@ -95,6 +95,21 @@ var app = {
           $(document.body).addClass('ios7')
         }
         
+        // Fetch Notification Category
+        $.ajax(SERVER + '/push/category', {
+          dataType: 'json',
+          error: function (err) {
+            console.error('Norification Category Fetch Failed');
+            $.mobile.changePage('#serverFault')
+          },
+          success: function (result) {
+            if (result.status === 'success') {
+              var e = new $.Event('fetchedCategory');
+              e.category = result.category;
+              $("#notification-category").trigger(e);
+            }
+          }
+        });
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -155,6 +170,8 @@ var pushRegister = function () {
 // Templates
 var TMPL = {};
 TMPL.introduceObject = _.template(document.querySelector("#introduce-object-tmpl").innerHTML);
+TMPL.notificationCategory = _.template(document.querySelector('#notification-category-tmpl').innerHTML);
+TMPL.notificationList = _.template(document.querySelector('#notification-list-tmpl').innerHTML);
 
 // ******** Main Page ********
 $("#main-menu").delegate('.tile', 'click', function (ev, ui) {
@@ -321,4 +338,61 @@ $("#introduce-content").on('contentFetched', function (ev) {
   $('.content', this).html(ev.content);
   history.replaceState(null, "SchoolAPP", "#introduce-content");
   $.mobile.changePage("#introduce-content", {transition: 'none'})
+});
+
+// ******** Push Notification List ********
+$("#notification-category").on('fetchedCategory', function (ev) {
+  if (ev.category === undefined) {
+    return false;
+  }  
+  var categoryCount, i, html;
+  
+  ev.category.unshift({
+    name: '全部',
+    id: -1
+  });
+  categoryCount = Math.max(4, ev.category.length);
+  html = ""
+  
+  for (i = 0; i < categoryCount; i += 1) {
+    html += TMPL.notificationCategory(ev.category[i]);
+  }
+  
+  $("ul", this).html(html);
+  $("ul a", this).first().trigger('click');
+});
+
+$("#notification-category").delegate('a:not(.active)', 'click', function (ev) {
+  ev.preventDefault();
+  var $this = $(this), e;
+  
+  // Active Button
+  $(".active").removeClass('active');
+  $this.addClass('active');
+  
+  // Change Tab
+  e = new $.Event('changeTab');
+  e.target = $this.data('category');
+  $("#notification-list").trigger(e);
+});
+
+$("#notification-list").on('changeTab', function (ev) {
+  ev.target = ev.target || -1;
+  
+  var $this = $(this);
+  
+  $.ajax(SERVER + '/push/list/' + ev.target, {
+    dataType: 'json',
+    success: function (result) {
+      if (result.status === 'success') {
+        var i, html = ""
+        
+        for (i = 0; i < result.list.length; i += 1) {
+          html += TMPL.notificationList(result.list[i]);
+        }
+        
+        $(".list", $this).html(html).listview('refresh');
+      }
+    } 
+  })
 });

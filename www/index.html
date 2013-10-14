@@ -47,7 +47,7 @@
               <i class='icon-user'></i>
               <span>校園簡介</span>
             </li>
-            <li class='x2 tile green-tea'>
+            <li class='x2 tile green-tea' data-target='notification-list'>
               <i class='icon-list'></i>
               <span>最新消息</span>
             </li>
@@ -73,6 +73,13 @@
             </li>
             <div class='clearfix'></div>
           </ul>
+        </div>
+      </div>
+      <!-- 伺服器無回應 -->
+      <div data-role='page' id='serverFault'>
+        <div data-role='content'>
+          <h1>伺服器沒有回應</h1>
+          <p>請聯繫系統工程師，我們將竭力修復這個錯誤</p>
         </div>
       </div>
       <!-- 登入對話框 -->
@@ -132,6 +139,37 @@
           <h1></h1>
         </div>
         <div data-role="content" class='content'>
+        </div>
+      </div>
+      <!-- 最新消息 -->
+      <script type='text/template' id='notification-category-tmpl'>
+        <li>
+          <a href="#" data-category='<%= id%>'><%= name%></a>
+				</li>
+      </script>
+      <script type='text/template' id='notification-list-tmpl'>
+        <li>
+          <a href="index.html">
+  					<h2>[ <%= category%> ] <%= message%></h2>
+  					<p><%= push_time.substr(0, 10)%></p>
+          </a>
+        </li>
+      </script>
+      <div data-role='page' data-list='0' id='notification-list'>
+        <div data-role='header' class='header'>
+          <a href="index.html" data-icon="arrow-l" data-rel='back'>返回</a>
+          <h1>最新消息</h1>
+        </div>
+        <div data-role="content" class='content'>
+          <ul class="list" data-role="listview">
+    		  </ul>
+        </div>
+        <div data-role="footer" data-id='notification-category' id='notification-category' data-position='fixed'>
+          <div data-role='navbar'>
+            <ul>
+            <!-- Auto Generated Category -->
+            </ul>
+          </div>
         </div>
       </div>
       <script type="text/javascript" src="cordova.js"></script>
