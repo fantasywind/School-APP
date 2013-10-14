@@ -1,0 +1,22 @@
+div.column.one
+  h1.ui.header.dividing 管理系統帳號
+  div.ui.header
+    a.ui.button.positive(href='/setting/new')
+      i.icon.plus
+      |  新增帳號
+  div.segment.piled.ui
+    table.ui.table
+      thead
+        tr
+          th 姓名
+          th 帳號
+          th
+      tbody
+        each account, i in accounts
+          tr(data-id='#{account.id}')
+            td= account.name
+            td= account.account
+            td
+              button.ui.button.mini.negative
+                i.icon.remove
+                |  刪除

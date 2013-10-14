@@ -1,0 +1,20 @@
+div.column.one
+  h1.ui.header.dividing 新增帳號
+  div.ui.segment.basic
+    a.ui.button(href='/setting')
+      i.icon.arrow.left
+      |  返回清單
+  form.ui.form.segment(method='post', action='/setting')
+    div.field
+      label 姓名
+      input#name(placeholder='請輸入姓名', type='text', name='name')
+    div.field
+      label 帳號
+      input#account(placeholder='請輸入帳號', type='text', name='account')
+    div.field
+      label 密碼
+      input#password(placeholder='請輸入帳號', type='text', name='password')
+    div.actions.ui.right.aligned.segment.basic
+      button(type='submit')#add.button.ui.positive
+        i.icon.plus.large
+        |  新增
