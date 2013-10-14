@@ -16,6 +16,58 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+// Server Constant
+var SERVER = "http://school.infinitibeat.com/api";
+
+// On Push Notification
+window.onNofiticationAPN = function (event) {
+
+  if (event.alert) {
+    
+  }
+  
+  if (event.sound) {
+    
+  } 
+  
+  if (event.badge) {
+    window.plugins.pushNotification.setApplicationIconBadgeNumber(function () {
+      console.info('Set Badge.');
+    }, function (err) {
+      console.error('Set Badge Number Error: ' + err);
+    }, event.badge);
+  }
+  
+  localStorage.notificationTarget = event.messageId;
+}
+
+window.onNofiticationGCM = function (e) {
+  switch (e.event) {
+    case 'registered':
+      break;
+    case 'message':
+      if (e.foreground) {
+        
+      } else {
+      
+        if (e.coldstart) {
+          console.log('coldstart')
+          localStorage.notificationTarget = event.payload.pushId
+        } else {
+          localStorage.notificationTarget = event.payload.pushId
+        }
+      }
+      break;
+    case 'error':
+      console.error('Android Notification Error: ' + e.msg);
+      break;
+    default:
+      console.info('Unknown Android Notification Status');
+      break;
+  }
+}
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -35,10 +87,14 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         
+        // Detect Login Status
+        $(document).trigger('loginCheck');
+        
         // Detect iOS7
         if (parseFloat(window.device.version) >= 7.0) {
           $(document.body).addClass('ios7')
         }
+        
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -46,7 +102,55 @@ var app = {
     }
 };
 
-var SERVER = "http://school.infinitibeat.com/api";
+// Push Register
+var pushRegister = function () {
+  if (localStorage.pushRegisted === undefined || localStorage.pushRegisted === false) {
+    var pushNotification = window.plugins.pushNotification;
+    
+    if (device.platform.match(/android/gi) !== null) {
+      // Android
+      pushNotification.register(function (msg) {
+        console.info('Registed Android Notification.');
+        localStorage.pushRegisted = true;
+      }, function (err) {
+        console.error('Registed Android Notification Failed: ' + err);
+      }, {
+        senderID: "1033044943941",
+        ecb: "onNofiticationGCM"
+      });
+    } else {
+      // iOS
+      pushNotification.register(function (token) {
+        console.info('Registed iOS Notification');
+        
+        // Registed token
+        $.ajax(SERVER + '/push/register', {
+          type: 'post',
+          data: {
+            type: 'ios',
+            token: token
+          },
+          dataType: 'json',
+          error: function (err){
+            console.error('Cannot Registed iOS Token with server fault.')
+          },
+          success: function (result) {
+            console.info('Registed Token: ' + token);
+            localStorage.pushRegisted = true;
+          }
+        });
+        
+      }, function (err) {
+        console.error('Registed Android Notification Failed: ' + err);
+      }, {
+        badge: true,
+        sound: true,
+        alert: true,
+        ecb: "onNofiticationAPN"
+      });
+    }
+  }
+}
 
 // Templates
 var TMPL = {};
@@ -61,6 +165,68 @@ $("#main-menu").delegate('.tile', 'click', function (ev, ui) {
       $('#introduce-odd').data('nextLevel', true);
     }
     $.mobile.changePage("#" + target)
+  }
+});
+
+// ******** Login Page ********
+$(document).on('loginCheck', function (e) {
+  if (localStorage.memberID) {
+    var btn = $("#login-btn").addClass('logined')
+    $("a", btn)
+      .attr('href', '#')
+      .text('帳號: ' + localStorage.name);
+      
+    // Register Notification
+    pushRegister();
+  }
+});
+$("#login .submit-btn").on('click', function(ev){
+  var $form, account, password, mail;
+  
+  ev.preventDefault();
+  
+  $form = $(this).parents('form');
+  account = $("input[name='account']", $form).val();
+  password = $("input[name='password']", $form).val();
+  mail = $("input[name='mail']", $form).val();
+  
+  if (account !== '' && password !== '') {
+    $.ajax(SERVER + '/login', {
+      type: 'post',
+      data: {
+        account: account,
+        password: password
+      },
+      dataType: 'json',
+      error: function (err) {
+        console.error('Login Error: ' + err);
+        alert('伺服器錯誤，請回報系統管理員。')
+      },
+      success: function (result) {
+        switch (result.status) {
+          case 'logined':
+            localStorage.memberID = result.id;
+            localStorage.name = result.name;
+            localStorage.account = account;
+            localStorage.password = password;
+            $(document).trigger('loginCheck');
+            $.mobile.changePage("#main-menu");
+            break;
+          case 'failed':
+            alert('帳號或密碼錯誤！\n請檢查後再嘗試。')
+            break;
+          case 'not found':
+          default:
+            alert('找不到這個帳號')
+            break;
+        }
+        $("input", $form).val('');
+      }
+    })
+  } else if (mail !== '') {
+    
+  } else {
+    alert('資料不完全！\n請檢查後再嘗試登入。')
   }
 });
 

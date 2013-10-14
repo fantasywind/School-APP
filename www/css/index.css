@@ -70,6 +70,27 @@ body.ios7 #main-menu > .header {
   display: block;
 }
 
+#login-btn {
+  width: 20%;
+  position: fixed;
+  top: 0;
+  right: 6pt;
+  z-index: 100;
+}
+
+#login-btn.logined {
+  width: 38%;
+}
+
+body.ios7 #login-btn {
+  top: 20px;
+}
+
+#login .divider {
+  display: block;
+  height: 20pt;
+}
+
 #main-menu li {
   list-style: none;
 }
