@@ -172,6 +172,7 @@ var TMPL = {};
 TMPL.introduceObject = _.template(document.querySelector("#introduce-object-tmpl").innerHTML);
 TMPL.notificationCategory = _.template(document.querySelector('#notification-category-tmpl').innerHTML);
 TMPL.notificationList = _.template(document.querySelector('#notification-list-tmpl').innerHTML);
+TMPL.notificationContent = _.template(document.querySelector("#notification-content-tmpl").innerHTML);
 
 // ******** Main Page ********
 $("#main-menu").delegate('.tile', 'click', function (ev, ui) {
@@ -395,4 +396,35 @@ $("#notification-list").on('changeTab', function (ev) {
       }
     } 
   })
+});
+
+$("#notification-list").delegate('.list a', 'click', function (ev) {
+  ev.preventDefault();
+
+  var e = $.Event('showContent');
+  e.pushId = $(this).data('id');
+  $("#notification-content").trigger(e);
+});
+
+$("#notification-content").on('showContent', function (ev) {
+  if (ev.pushId === undefined) {
+    return false;
+  }
+  
+  var $this = $(this);
+  
+  $.ajax(SERVER + '/push/' + ev.pushId, {
+    dataType: 'json',
+    error: function (err){
+      console.error('Fetch Push Content Failed.');
+    },
+    success: function (result) {
+      if (result.status === 'msg') {
+        var html = TMPL.notificationContent(result.message);
+        $(".content", $this).html(html);
+        $.mobile.changePage("#notification-content");
+      }
+    }
+  });
+  
 });
