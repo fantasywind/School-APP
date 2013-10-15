@@ -110,6 +110,16 @@ var app = {
             }
           }
         });
+        
+        // Bind Resume Event
+        $(document).on('resume', function (e) {
+          if (localStorage.notificationTarget) {
+            var e = $.Event('showContent');
+            e.pushId = localStorage.notificationTarget;
+            delete localStorage.notificationTarget;
+            $("#notification-content").trigger(e);
+          }
+        });
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -119,51 +129,49 @@ var app = {
 
 // Push Register
 var pushRegister = function () {
-  if (localStorage.pushRegisted === undefined || localStorage.pushRegisted === false) {
-    var pushNotification = window.plugins.pushNotification;
-    
-    if (device.platform.match(/android/gi) !== null) {
-      // Android
-      pushNotification.register(function (msg) {
-        console.info('Registed Android Notification.');
-        localStorage.pushRegisted = true;
-      }, function (err) {
-        console.error('Registed Android Notification Failed: ' + err);
-      }, {
-        senderID: "1033044943941",
-        ecb: "onNofiticationGCM"
+  var pushNotification = window.plugins.pushNotification;
+  
+  if (device.platform.match(/android/gi) !== null) {
+    // Android
+    pushNotification.register(function (msg) {
+      console.info('Registed Android Notification.');
+      localStorage.pushRegisted = true;
+    }, function (err) {
+      console.error('Registed Android Notification Failed: ' + err);
+    }, {
+      senderID: "1033044943941",
+      ecb: "onNofiticationGCM"
+    });
+  } else {
+    // iOS
+    pushNotification.register(function (token) {
+      console.info('Registed iOS Notification');
+      
+      // Registed token
+      $.ajax(SERVER + '/push/register', {
+        type: 'post',
+        data: {
+          type: 'ios',
+          token: token
+        },
+        dataType: 'json',
+        error: function (err){
+          console.error('Cannot Registed iOS Token with server fault.')
+        },
+        success: function (result) {
+          console.info('Registed Token: ' + token);
+          localStorage.pushRegisted = true;
+        }
       });
-    } else {
-      // iOS
-      pushNotification.register(function (token) {
-        console.info('Registed iOS Notification');
-        
-        // Registed token
-        $.ajax(SERVER + '/push/register', {
-          type: 'post',
-          data: {
-            type: 'ios',
-            token: token
-          },
-          dataType: 'json',
-          error: function (err){
-            console.error('Cannot Registed iOS Token with server fault.')
-          },
-          success: function (result) {
-            console.info('Registed Token: ' + token);
-            localStorage.pushRegisted = true;
-          }
-        });
-        
-      }, function (err) {
-        console.error('Registed Android Notification Failed: ' + err);
-      }, {
-        badge: true,
-        sound: true,
-        alert: true,
-        ecb: "onNofiticationAPN"
-      });
-    }
+      
+    }, function (err) {
+      console.error('Registed Android Notification Failed: ' + err);
+    }, {
+      badge: true,
+      sound: true,
+      alert: true,
+      ecb: "onNofiticationAPN"
+    });
   }
 }
 
