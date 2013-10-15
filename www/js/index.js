@@ -45,17 +45,34 @@ window.onNofiticationAPN = function (event) {
 window.onNofiticationGCM = function (e) {
   switch (e.event) {
     case 'registered':
+      if (e.regid.length > 0) {
+        // Registed token
+        $.ajax(SERVER + '/push/register', {
+          type: 'post',
+          data: {
+            type: 'android',
+            token: e.regid
+          },
+          dataType: 'json',
+          error: function (err){
+            console.error('Cannot Registed Android Token with server fault.')
+          },
+          success: function (result) {
+            console.info('Registed Android Token: ' + e.regid);
+            localStorage.pushRegisted = true;
+          }
+        });
+      }
       break;
     case 'message':
       if (e.foreground) {
-        
+        // 前景執行中
       } else {
-      
+        // 背景執行
         if (e.coldstart) {
-          console.log('coldstart')
-          localStorage.notificationTarget = event.payload.pushId
+          localStorage.notificationTarget = e.payload.pushId
         } else {
-          localStorage.notificationTarget = event.payload.pushId
+          localStorage.notificationTarget = e.payload.pushId
         }
       }
       break;
@@ -110,6 +127,16 @@ var app = {
             }
           }
         });
+        
+        // Bind Resume Event
+        $(document).on('resume', function (e) {
+          if (localStorage.notificationTarget) {
+            var e = $.Event('showContent');
+            e.pushId = localStorage.notificationTarget;
+            delete localStorage.notificationTarget;
+            $("#notification-content").trigger(e);
+          }
+        });
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -119,51 +146,49 @@ var app = {
 
 // Push Register
 var pushRegister = function () {
-  if (localStorage.pushRegisted === undefined || localStorage.pushRegisted === false) {
-    var pushNotification = window.plugins.pushNotification;
-    
-    if (device.platform.match(/android/gi) !== null) {
-      // Android
-      pushNotification.register(function (msg) {
-        console.info('Registed Android Notification.');
-        localStorage.pushRegisted = true;
-      }, function (err) {
-        console.error('Registed Android Notification Failed: ' + err);
-      }, {
-        senderID: "1033044943941",
-        ecb: "onNofiticationGCM"
+  var pushNotification = window.plugins.pushNotification;
+  
+  if (device.platform.match(/android/gi) !== null) {
+    // Android
+    pushNotification.register(function (msg) {
+      console.info('Registed Android Notification.');
+      localStorage.pushRegisted = true;
+    }, function (err) {
+      console.error('Registed Android Notification Failed: ' + err);
+    }, {
+      senderID: "1033044943941",
+      ecb: "onNofiticationGCM"
+    });
+  } else {
+    // iOS
+    pushNotification.register(function (token) {
+      console.info('Registed iOS Notification');
+      
+      // Registed token
+      $.ajax(SERVER + '/push/register', {
+        type: 'post',
+        data: {
+          type: 'ios',
+          token: token
+        },
+        dataType: 'json',
+        error: function (err){
+          console.error('Cannot Registed iOS Token with server fault.')
+        },
+        success: function (result) {
+          console.info('Registed Token: ' + token);
+          localStorage.pushRegisted = true;
+        }
       });
-    } else {
-      // iOS
-      pushNotification.register(function (token) {
-        console.info('Registed iOS Notification');
-        
-        // Registed token
-        $.ajax(SERVER + '/push/register', {
-          type: 'post',
-          data: {
-            type: 'ios',
-            token: token
-          },
-          dataType: 'json',
-          error: function (err){
-            console.error('Cannot Registed iOS Token with server fault.')
-          },
-          success: function (result) {
-            console.info('Registed Token: ' + token);
-            localStorage.pushRegisted = true;
-          }
-        });
-        
-      }, function (err) {
-        console.error('Registed Android Notification Failed: ' + err);
-      }, {
-        badge: true,
-        sound: true,
-        alert: true,
-        ecb: "onNofiticationAPN"
-      });
-    }
+      
+    }, function (err) {
+      console.error('Registed Android Notification Failed: ' + err);
+    }, {
+      badge: true,
+      sound: true,
+      alert: true,
+      ecb: "onNofiticationAPN"
+    });
   }
 }
 
@@ -172,6 +197,7 @@ var TMPL = {};
 TMPL.introduceObject = _.template(document.querySelector("#introduce-object-tmpl").innerHTML);
 TMPL.notificationCategory = _.template(document.querySelector('#notification-category-tmpl').innerHTML);
 TMPL.notificationList = _.template(document.querySelector('#notification-list-tmpl').innerHTML);
+TMPL.notificationContent = _.template(document.querySelector("#notification-content-tmpl").innerHTML);
 
 // ******** Main Page ********
 $("#main-menu").delegate('.tile', 'click', function (ev, ui) {
@@ -395,4 +421,35 @@ $("#notification-list").on('changeTab', function (ev) {
       }
     } 
   })
+});
+
+$("#notification-list").delegate('.list a', 'click', function (ev) {
+  ev.preventDefault();
+
+  var e = $.Event('showContent');
+  e.pushId = $(this).data('id');
+  $("#notification-content").trigger(e);
+});
+
+$("#notification-content").on('showContent', function (ev) {
+  if (ev.pushId === undefined) {
+    return false;
+  }
+  
+  var $this = $(this);
+  
+  $.ajax(SERVER + '/push/' + ev.pushId, {
+    dataType: 'json',
+    error: function (err){
+      console.error('Fetch Push Content Failed.');
+    },
+    success: function (result) {
+      if (result.status === 'msg') {
+        var html = TMPL.notificationContent(result.message);
+        $(".content", $this).html(html);
+        $.mobile.changePage("#notification-content");
+      }
+    }
+  });
+  
 });

@@ -147,15 +147,19 @@
           <a href="#" data-category='<%= id%>'><%= name%></a>
 				</li>
       </script>
+      <script type='text/template' id='notification-content-tmpl'>
+        <h2>[ <%= category%> ] <%= message%></h2>
+        <div><%= article%></div>
+      </script>
       <script type='text/template' id='notification-list-tmpl'>
         <li>
-          <a href="index.html">
+          <a href="index.html" data-id='<%= id%>'>
   					<h2>[ <%= category%> ] <%= message%></h2>
   					<p><%= push_time.substr(0, 10)%></p>
           </a>
         </li>
       </script>
-      <div data-role='page' data-list='0' id='notification-list'>
+      <div data-role='page' id='notification-list'>
         <div data-role='header' class='header'>
           <a href="index.html" data-icon="arrow-l" data-rel='back'>返回</a>
           <h1>最新消息</h1>
@@ -170,6 +174,15 @@
             <!-- Auto Generated Category -->
             </ul>
           </div>
+        </div>
+      </div>
+      <div data-role='page' id='notification-content'>
+        <div data-role='header' class='header'>
+          <a href="index.html" data-icon="arrow-l" data-rel='back'>返回</a>
+          <h1>推播訊息</h1>
+        </div>
+        <div data-role="content" class='content'>
+          
         </div>
       </div>
       <script type="text/javascript" src="cordova.js"></script>
