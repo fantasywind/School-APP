@@ -45,17 +45,34 @@ window.onNofiticationAPN = function (event) {
 window.onNofiticationGCM = function (e) {
   switch (e.event) {
     case 'registered':
+      if (e.regid.length > 0) {
+        // Registed token
+        $.ajax(SERVER + '/push/register', {
+          type: 'post',
+          data: {
+            type: 'android',
+            token: e.regid
+          },
+          dataType: 'json',
+          error: function (err){
+            console.error('Cannot Registed Android Token with server fault.')
+          },
+          success: function (result) {
+            console.info('Registed Android Token: ' + e.regid);
+            localStorage.pushRegisted = true;
+          }
+        });
+      }
       break;
     case 'message':
       if (e.foreground) {
-        
+        // 前景執行中
       } else {
-      
+        // 背景執行
         if (e.coldstart) {
-          console.log('coldstart')
-          localStorage.notificationTarget = event.payload.pushId
+          localStorage.notificationTarget = e.payload.pushId
         } else {
-          localStorage.notificationTarget = event.payload.pushId
+          localStorage.notificationTarget = e.payload.pushId
         }
       }
       break;
