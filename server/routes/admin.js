@@ -393,15 +393,15 @@ exports.pushMsg = function (req, res) {
           apnsConnection2.pushNotification(note, iosTokens);
 
           // Android GCM Service
-          var sender = new gcm.Sender('1033044943941');
+          var sender = new gcm.Sender('AIzaSyDCMZxdnLlRjwgkgc80rUUahPNDYcsHgv8');
 
           var message = new gcm.Message();
           message.addDataWithKeyValue('message', row[0].message);
           message.addDataWithKeyValue('pushId', msgId);
 
           sender.send(message, androidTokens, 4, function (err, result) {
-            if (err) console.error(err);
-            console.info(result);
+            if (err) console.error("err:" + err);
+            console.info("Result -- " + result);
           });
 
           // Update Status
