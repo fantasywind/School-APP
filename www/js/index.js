@@ -214,13 +214,20 @@ $("#main-menu").delegate('.tile', 'click', function (ev, ui) {
 // ******** Login Page ********
 $(document).on('loginCheck', function (e) {
   if (localStorage.memberID) {
-    var btn = $("#login-btn").addClass('logined')
+    var btn = $("#login-btn").addClass('logined');
     $("a", btn)
       .attr('href', '#')
       .text('帳號: ' + localStorage.name);
       
     // Register Notification
     pushRegister();
+  }
+  else
+  {
+    var btn = $("#login-btn").removeClass('logined');
+    $("a", btn)
+      .attr('href', '#login')
+      .text('登入');
   }
 });
 $("#login .submit-btn").on('click', function(ev){
@@ -272,7 +279,27 @@ $("#login .submit-btn").on('click', function(ev){
     alert('資料不完全！\n請檢查後再嘗試登入。')
   }
 });
+// ******** Loginout function ********
+$("#login-btn").on('click', function(ev){
+  if(localStorage.memberID)
+  {
+    alert("logout");
+    window.localStorage.clear();
+    $.ajax(SERVER + '/logout', {
+      type: 'post',
+      error: function (err) {
+        console.error('Logout Error: ' + err);
+        alert('伺服器錯誤，請回報系統管理員。')
+      },
+      success: function () {
+        // Detect Login Status
+        $(document).trigger('loginCheck');
+      }
+    
+    })
+  }
 
+});
 // ******** Introduce List ********
 var introduceHistory = []
 $(".introduce-list").on('pagebeforeshow', function (ev) {
