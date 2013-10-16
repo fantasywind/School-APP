@@ -48,6 +48,13 @@ exports.login = function (req, res) {
   }
 }
 
+exports.logout = function (req, res) {
+  req.session.destroy()
+  res.json({
+    status: 'loged out'
+  });
+}
+
 exports.anonymous = function (req, res) {
   var mail = req.body.mail;
 
