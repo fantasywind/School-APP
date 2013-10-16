@@ -69,6 +69,7 @@ app.get('/api/push/category', api.pushCategory);
 app.get('/api/push/list', admin.getPushList);
 app.get('/api/push/list/:categoryId', admin.getPushList);
 app.get('/api/push/:msgId', admin.getPushMsg);
+app.post('/api/logout', auth.logout);
 app.get('/login', admin.login);
 app.post('/login', admin.doLogin);
 app.get('/', admin.mainPage);
