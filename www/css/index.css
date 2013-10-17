@@ -195,6 +195,9 @@ body.ios7 #login-btn {
 .light-green {
   background-color: #00BE61;
 }
+.disabled {
+  background-color: #AAA;
+}
 .clearfix:after {
   content: ".";
   display: block;
