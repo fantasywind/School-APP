@@ -89,6 +89,11 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+
+        // Initial Weather Box 
+        $("#weather-region").text(CITY_NAME)
+
+        $("#weather-box").trigger('fetchData')
     },
     // Bind Event Listeners
     //
@@ -279,8 +284,27 @@ $("#login .submit-btn").on('click', function(ev){
     alert('資料不完全！\n請檢查後再嘗試登入。')
   }
 });
+// ******** Weather Box ********
+$("#weather-box").on('fetchData', function (ev) {
+  $.ajax({
+    url: 'http://query.yahooapis.com/v1/public/yql',
+    data: {
+      q: "select * from weather.forecast where woeid = " + YAHOO_WOEID,
+      format: 'json'
+    },
+    dataType: 'json',
+    crossDomain: true,
+    success: function (data) {
+      console.dir (data)
+      tempF = parseInt(data.query.results.channel.item.condition.temp, 10)
+      tempC = Math.round((tempF-32) * 50 / 9) / 10
+      $("#weather-temperture .value").text(tempC)
+    }
+  })
+});
+
 // ******** Loginout function ********
-$("#login-btn").on('click', function(ev){
+$("#login-btn").on('click', function (ev) {
   if(localStorage.memberID)
   {
     alert("logout");

@@ -1,0 +1,2 @@
+CITY_NAME = '三峽區'
+YAHOO_WOEID = 2302408
