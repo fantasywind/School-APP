@@ -83,7 +83,7 @@ exports.getChatList = function (req, res) {
 
   try {
     req.db.query("SELECT group_id AS id, (SELECT name FROM group WHERE id = group_id) AS name FROM member_group WHERE member_id = ?", [req.session.uid], function (err, row, field) {
-      throw err if err
+      if (err) throw err;
       res.json({
         status: 'success'
         list: row
