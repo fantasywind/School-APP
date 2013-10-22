@@ -12,6 +12,8 @@ var member = require('./routes/member.js');
 var setting = require('./routes/setting.js');
 var http = require('http');
 var path = require('path');
+var io = require("socket.io");
+var sessionIO = require("session.socket.io");
 var app = express();
 
 
@@ -96,6 +98,16 @@ app.post('/setting', setting.makeAccountSave);
 app.delete('/setting/:acId', setting.deleteAccount);
 app.get('/logout',admin.logout);
 
-http.createServer(app).listen(app.get('port'), function(){
+service = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+});
+
+ioSocket = io.listen(service);
+ioSocket.sockets.on('connection', function (socket) {
+  console.log('receive connection');
+
+  socket.on('message', function (data) {
+    console.log('Message-----')
+    console.dir(data)
+  });
 });

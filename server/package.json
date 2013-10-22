@@ -12,6 +12,8 @@
     "mysql": "*",
     "apn": "*",
     "node-gcm": "*",
-    "randomstring": "*"
+    "randomstring": "*",
+    "session.socket.io": "*",
+    "socket.io": "*"
   }
 }
