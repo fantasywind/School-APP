@@ -80,9 +80,10 @@ exports.pushCategory = function (req, res) {
 }
 
 exports.getChatList = function (req, res) {
-
+  member_id = req.query.uid
+  
   try {
-    req.db.query("SELECT group_id AS id, (SELECT name FROM `group` WHERE id = group_id) AS name FROM member_group WHERE member_id = ?", [req.session.uid], function (err, row, field) {
+    req.db.query("SELECT group_id AS id, (SELECT name FROM `group` WHERE id = group_id) AS name FROM member_group WHERE member_id = ?", [member_id], function (err, row, field) {
       if (err) throw err;
       res.json({
         status: 'success',
