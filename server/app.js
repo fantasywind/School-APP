@@ -61,6 +61,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+/* API Service */
 app.post('/api/login', auth.login);
 app.post('/api/anonymous', auth.anonymous);
 app.get('/api/introduce', api.introduce);
@@ -70,6 +71,10 @@ app.get('/api/push/list', admin.getPushList);
 app.get('/api/push/list/:categoryId', admin.getPushList);
 app.get('/api/push/:msgId', admin.getPushMsg);
 app.post('/api/logout', auth.logout);
+app.post('/api/push/register', api.registerPush);
+app.get('/api/chat/list', api.getChatList);
+
+/* Backend Site */
 app.get('/login', admin.login);
 app.post('/login', admin.doLogin);
 app.get('/', admin.mainPage);
@@ -79,7 +84,6 @@ app.get('/introduce/new/:unitId', admin.introduce);
 app.post('/introduce/new/:targetId', admin.newIntroduce);
 app.post('/introduce/:unitId', admin.updateIntroduce);
 app.delete('/introduce/:unitId', admin.deleteIntroduce);
-app.post('/api/push/register', api.registerPush);
 app.get('/push', admin.push);
 app.post('/push', admin.makePushSave);
 app.get('/push/new', admin.makePush);
