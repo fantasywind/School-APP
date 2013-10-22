@@ -203,16 +203,18 @@ TMPL.introduceObject = _.template(document.querySelector("#introduce-object-tmpl
 TMPL.notificationCategory = _.template(document.querySelector('#notification-category-tmpl').innerHTML);
 TMPL.notificationList = _.template(document.querySelector('#notification-list-tmpl').innerHTML);
 TMPL.notificationContent = _.template(document.querySelector("#notification-content-tmpl").innerHTML);
+TMPL.chatGroupList = _.template(document.querySelector("#chat-group-list-tmpl").innerHTML);
 
 // ******** Main Page ********
 $("#main-menu").delegate('.tile', 'click', function (ev, ui) {
-  var target = $(this).data('target');
+  var $this = $(this),
+      target = $this.data('target');
   
-  if (target) {
+  if (target && !$this.hasClass('disabled')) {
     if (target === 'introduce-odd') {
       $('#introduce-odd').data('nextLevel', true);
     }
-    $.mobile.changePage("#" + target)
+    $.mobile.changePage("#" + target);
   }
 });
 
@@ -223,9 +225,46 @@ $(document).on('loginCheck', function (e) {
     $("a", btn)
       .attr('href', '#')
       .text('帳號: ' + localStorage.name);
-      
+    
+    // Login
+    $.ajax(SERVER + '/login', {
+      type: 'post',
+      data: {
+        account: localStorage.account,
+        password: localStorage.password
+      },
+      dataType: 'json',
+      error: function (err) {
+        console.error('Login Error: ' + err);
+        alert('伺服器錯誤，請回報系統管理員。')
+      },
+      success: function (result) {
+        switch (result.status) {
+          case 'logined':
+            localStorage.memberID = result.id;
+            localStorage.name = result.name;
+            localStorage.account = account;
+            localStorage.password = password;
+            $(document).trigger('loginCheck');
+            $.mobile.changePage("#main-menu");
+            break;
+          case 'failed':
+            alert('帳號或密碼錯誤！\n請檢查後再嘗試。')
+            break;
+          case 'not found':
+          default:
+            alert('找不到這個帳號')
+            break;
+        }
+        $("input", $form).val('');
+      }
+    });
+
     // Register Notification
     pushRegister();
+
+    // Enable Chat Page
+    $("[data-target='chat-group']").removeClass('disabled');
   }
   else
   {
@@ -307,7 +346,7 @@ $("#weather-box").on('fetchData', function (ev) {
 $("#login-btn").on('click', function (ev) {
   if(localStorage.memberID)
   {
-    alert("logout");
+    alert("已登出系統!");
     window.localStorage.clear();
     $.ajax(SERVER + '/logout', {
       type: 'post',
@@ -502,5 +541,33 @@ $("#notification-content").on('showContent', function (ev) {
       }
     }
   });
-  
+});
+
+/******** 聊天 ********/
+$("#chat-group").on('pagebeforeshow', function (ev) {
+  $this = $(this)
+
+  $.ajax(SERVER + "/chat/list", {
+    dataType: 'json',
+    data: {uid: localStorage.memberID},
+    error: function (err) {
+      console.error('Fetch Chat List Failed.');
+    },
+    success: function (result) {
+      if (result.status === 'success') {
+        html = ""
+        for (var i = 0; i < result.list.length; i += 1) {
+          _.extend(result.list[i], {
+            userCount: 0
+          });
+          html += TMPL.chatGroupList(result.list[i])
+        }
+        content = $(".content", $this)
+        content.find('h2').fadeOut(function(){
+          $(this).remove()
+        });
+        content.find('ul').html(html).listview('refresh');
+      }
+    }
+  });
 });
