@@ -19,6 +19,7 @@
 
 // Server Constant
 var SERVER = "http://school.infinitibeat.com/api";
+var SOCKET = "http://school.infinitibeat.com";
 
 // On Push Notification
 window.onNofiticationAPN = function (event) {
@@ -116,6 +117,9 @@ var app = {
         if (parseFloat(window.device.version) >= 7.0) {
           $(document.body).addClass('ios7')
         }
+
+        // Initial Socket.io
+        window.socket = io.connect(SOCKET);
         
         // Fetch Notification Category
         $.ajax(SERVER + '/push/category', {
@@ -554,6 +558,8 @@ $("#chat-group").on('pagebeforeshow', function (ev) {
       console.error('Fetch Chat List Failed.');
     },
     success: function (result) {
+      console.log("Emit Socket.")
+      socket.emit('message', {groupId: 4, msg: '欸你要不要看電影'});
       if (result.status === 'success') {
         html = ""
         for (var i = 0; i < result.list.length; i += 1) {
@@ -571,3 +577,14 @@ $("#chat-group").on('pagebeforeshow', function (ev) {
     }
   });
 });
+
+socket.on('enter', function (data) {
+  console.log('enter')
+  console.dir(data);
+});
+
+socket.on('message', function (data) {
+  console.dir(data);
+});
+
+socket.emit('message', {groupId: 4, msg: '欸你要不要看電影'});
