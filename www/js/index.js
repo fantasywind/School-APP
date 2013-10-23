@@ -578,6 +578,17 @@ $("#chat-group").on('pagebeforeshow', function (ev) {
   });
 });
 
+$("#chat-group-list").delegate('a', 'click', function (e) {
+  e.preventDefault();
+  $this = $(this)
+
+  groupId = $(this).data('id');
+  $("#chat-window")
+    .data('groupId', groupId)
+    .find('h1').text($this.text())
+  $.mobile.changePage("#chat-window");
+});
+
 socket.on('enter', function (data) {
   console.log('enter')
   console.dir(data);
