@@ -225,11 +225,10 @@
         <div data-role='content' class='content'>
           <h2>正在讀取聊天訊息..</h2>
         </div>
-        <div data-role='footer'>
+        <div data-role='footer' data-position='fixed'>
           <form>
             <div data-role='fieldcontain'>
-              <label for='message'>訊息: </label>
-              <input type='text' name='message' placeholder='請輸入訊息' id='message-sender' />
+              <input type='text' name='message' data-inline="true" placeholder='請輸入訊息' id='message-sender' />
               <a href="#" data-role="button" data-inline="true">送出</a>
             </div>
           </form>
