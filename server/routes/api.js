@@ -94,8 +94,8 @@ exports.getChatList = function (req, res) {
   } catch (ex) {
     console.error(ex);
     res.json({
-      status: 'fail'
-      code: -1
+      status: 'fail',
+      code: -1,
       msg: 'Server Fault'
     });
   }
@@ -104,12 +104,12 @@ exports.getChatList = function (req, res) {
 // 聊天內容
 exports.getChatContent = function (req, res) {
   from = parseInt(req.query.from, 10) || 0
-  groupId = req.params.groupId or -1
+  groupId = req.params.groupId || -1
 
   if (groupId === -1 || isNaN(parseInt(groupId, 10)) || isNaN(from)) {
     return res.json({
-      status: 'fail'
-      code: 0
+      status: 'fail',
+      code: 0,
       msg: 'Invalid Parameter'
     });
   }
@@ -119,15 +119,15 @@ exports.getChatContent = function (req, res) {
       if (err) throw err;
 
       res.json({
-        status: 'success'
+        status: 'success',
         message: row
       });
     });
   } catch (ex) {
     console.error(ex.toString());
     res.json({
-      status: 'fail'
-      code: -1
+      status: 'fail',
+      code: -1,
       msg: 'Server Fault'
     });
   }
