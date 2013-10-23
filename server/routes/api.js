@@ -79,6 +79,7 @@ exports.pushCategory = function (req, res) {
   }
 }
 
+// 聊天群組列表
 exports.getChatList = function (req, res) {
   member_id = req.query.uid
   
@@ -92,5 +93,42 @@ exports.getChatList = function (req, res) {
     });
   } catch (ex) {
     console.error(ex);
+    res.json({
+      status: 'fail'
+      code: -1
+      msg: 'Server Fault'
+    });
+  }
+}
+
+// 聊天內容
+exports.getChatContent = function (req, res) {
+  from = parseInt(req.query.from, 10) || 0
+  groupId = req.params.groupId or -1
+
+  if (groupId === -1 || isNaN(parseInt(groupId, 10)) || isNaN(from)) {
+    return res.json({
+      status: 'fail'
+      code: 0
+      msg: 'Invalid Parameter'
+    });
+  }
+
+  try {
+    req.db.query("SELECT *, (SELECT name FROM member WHERE member.id = sender) AS sender_name FROM message WHERE target_group = ? ORDER BY send_time DESC LIMIT ?, ?", [groupId, from, from + 20], function (err, row, field) {
+      if (err) throw err;
+
+      res.json({
+        status: 'success'
+        message: row
+      });
+    });
+  } catch (ex) {
+    console.error(ex.toString());
+    res.json({
+      status: 'fail'
+      code: -1
+      msg: 'Server Fault'
+    });
   }
 }

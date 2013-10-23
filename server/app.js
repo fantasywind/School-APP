@@ -75,6 +75,7 @@ app.get('/api/push/:msgId', admin.getPushMsg);
 app.post('/api/logout', auth.logout);
 app.post('/api/push/register', api.registerPush);
 app.get('/api/chat/list', api.getChatList);
+app.get('/api/chat/:groupId', api.getChatContent);
 
 /* Backend Site */
 app.get('/login', admin.login);
