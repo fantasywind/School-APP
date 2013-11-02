@@ -115,7 +115,7 @@ exports.getChatContent = function (req, res) {
   }
 
   try {
-    req.db.query("SELECT *, (SELECT name FROM member WHERE member.id = sender) AS sender_name FROM message WHERE target_group = ? ORDER BY send_time DESC LIMIT ?, ?", [groupId, from, from + 20], function (err, row, field) {
+    req.db.query("SELECT *, (SELECT name FROM member WHERE member.id = sender) AS sender_name FROM message WHERE target_group = ? ORDER BY send_time ASC LIMIT ?, ?", [groupId, from, from + 20], function (err, row, field) {
       if (err) throw err;
 
       res.json({
