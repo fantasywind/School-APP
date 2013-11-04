@@ -77,8 +77,8 @@ html
           when "push"
             if mode == "list"
               include push
-            else
-              include makePush
+            else 
+              include makePushText
           when "member"
             if mode == "list"
               include memberList
@@ -103,15 +103,16 @@ html
         script(src='/javascripts/i18n/elrte.zh_TW.js')
         script(src='/javascripts/introduceArticle.js')
     if page == 'push'
-      if mode != 'list'
         link(rel='stylesheet', href='/stylesheets/jquery-ui-1.10.3.custom.min.css')
         link(rel='stylesheet', href='/stylesheets/elrte.min.css')
         script(src='/javascripts/jquery-ui-1.10.3.custom.min.js')
         script(src='/javascripts/elrte.min.js')
         script(src='/javascripts/i18n/elrte.zh_TW.js')
         script(src='/javascripts/make-push.js')
-      else
         script(src='/javascripts/xdate.js')
+        script(src='/javascripts/underscore-min.js')
+        script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false')
+        
 
     script(src='/javascripts/#{page}.js')
     link(rel='stylesheet', href='/stylesheets/#{page}.css')

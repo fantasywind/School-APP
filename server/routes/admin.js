@@ -220,27 +220,28 @@ exports.push = function (req, res) {
   try {
     req.db.query("SELECT *, (SELECT name FROM notification_category WHERE notification_category.id = category_id) AS category FROM notification ORDER BY id DESC LIMIT 0, 100", function (err, row, field) {
       if (err) throw err;
-
-      res.render('mainPage', {
-        page: 'push',
-        mode: 'list',
-        notifications: row
+      req.db.query("SELECT * FROM notification_category", function (err, category, field) {
+          res.render('mainPage', {
+            page: 'push',
+            mode: 'list',
+            notifications: row,
+            category: category
+          });
       });
     });
   } catch (ex) {
     console.error(ex);
   }
 }
-
 // 新增推播
-exports.makePush = function (req, res) {
+exports.makePushText = function (req, res) {
   try {
     req.db.query("SELECT * FROM notification_category", function (err, row, field) {
       if (err) throw err;
       
       res.render('mainPage', {
         page: 'push',
-        node: 'make',
+        mode: 'text',
         category: row
       });
     });
@@ -310,11 +311,17 @@ exports.getPushMsg = function (req, res) {
   }
 }
 
-// 記錄新推播
+// 記錄文字推播
 exports.makePushSave = function (req, res) {
+    //console.log('body: ' + JSON.stringify(req.body));
   var category = req.body.category,
       message = req.body.message,
       article = req.body.article;
+  //if type is text
+  if(req.body.typeis === 'text')
+  {
+      article = "<h2>[ " + req.body.categoryname + " ]  " + req.body.message + " <p>" + article + "</p>";
+  }
 
   try {
     req.db.query("INSERT INTO notification (category_id, message, article) VALUES (?, ?, ?)", [category, message, article], function (err, result) {

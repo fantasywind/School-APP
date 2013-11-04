@@ -9,3 +9,8 @@ html, body {
 header > h1{
   text-align: center;
 }
+
+.ui.youtube.modal {
+  width: 30%;
+  margin-left: -15%;
+}

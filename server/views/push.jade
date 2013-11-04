@@ -1,9 +1,71 @@
 div.column.one
   h1.ui.header.dividing 推播系統
   div.ui.segment.basic
-    a.ui.button.positive(href='/push/new')
+    div#dropdown.ui.button.positive.dropdown
       i.icon.plus
       |  新增推播訊息
+      div.menu
+        a.item(data-value="option1" href="/push/text")
+          i.font.icon
+          |  文字
+        div#popoutMap.item(data-value="option2")
+          i.video.icon
+          |  地圖
+        div#popoutVideo.item(data-value="option3")
+          i.map.maker.icon
+          |  影片
+    div#map_pop.small.ui.modal
+      i.close.icon
+      .header
+        | 推播地點
+      div#map_canvas(style="width: 300px; height: 300px; float:left; margin:0px 0px 50px 250px;")
+      div.field(style="margin-left:600px;")
+        label 搜尋地點
+        .searchbar(style="padding-bottom: 20px; margin-bottom: 20px;")
+          .ui.icon.input
+            input(type='text', placeholder='Search Places',name="address")
+            i.inverted.search.icon
+        label 推播文字
+        div.field(style="margin-bottom:40px;")
+          .ui.icon.input
+            input#mapMessage(placeholder='請輸入推播文字', type='text', name='message')
+        label 推播類型
+        div.field
+          div#mapSelection.ui.selection.dropdown
+            input(type='hidden', name='category', value='#{category[0].id}')
+            i.dropdown.icon
+            div.default.text #{category[0].name}
+            div.ui.menu.transition.hidden
+              each item, i in category
+                div.item(data-value='#{item.id}') #{item.name}
+      .actions
+        a#mapCancel.ui.button Cancel
+        a#mapOK.ui.positive.button OK
+    div#video_pop.ui.youtube.modal
+      i.close.icon
+      .header
+        | 推播 Youtube 影片
+      div.field(style="margin-left: 50px;")
+        label Youtube 影片網址
+        div.field(style="margin-bottom: 40px;")
+          .ui.icon.input
+            input#videoLink(placeholder='請輸入youtube影片連結', type='text', name='message')
+        label 推播文字
+        div.field(style="margin-bottom: 40px;")
+          .ui.icon.input
+            input#videoMessage(placeholder='請輸入推播文字', type='text', name='message')
+        label 推播類型
+        div.field
+          div#videoSelection.ui.selection.dropdown
+            input(type='hidden', name='category', value='#{category[0].id}')
+            i.dropdown.icon
+            div.default.text #{category[0].name}
+            div.ui.menu.transition.hidden
+             each item, i in category
+                div.item(data-value='#{item.id}') #{item.name}
+          .actions
+            a#videoCancel.ui.button Cancel
+            a#videoOK.ui.positive.button OK
   table.ui.table.segment
     thead
       tr
@@ -27,3 +89,12 @@ div.column.one
               button.ui.button.positive
                 i.icon.bullhorn
                 |  推送
+  //type_template
+  script#notification-map-tmpl(type='text/template')
+      <h3>[ <%= category%> ] <%= message%></h3>
+      <img id="map" width="300" height="300" border="0" style="margin-left: -5px" src="<%= src%>" >
+      <div id="navi"><a type="submit" data-theme="b">導航</a></div>
+  script#notification-video-tmpl(type='text/template')
+      <h3>[ <%= category%> ] </h3>
+      <iframe width="300" height="300" style="margin-left: -5px" src="http://www.youtube.com/embed/<%= videoLink%>" frameborder="0" allowfullscreen></iframe>
+      <p><%= message%></p>

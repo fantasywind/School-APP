@@ -89,7 +89,7 @@ app.post('/introduce/:unitId', admin.updateIntroduce);
 app.delete('/introduce/:unitId', admin.deleteIntroduce);
 app.get('/push', admin.push);
 app.post('/push', admin.makePushSave);
-app.get('/push/new', admin.makePush);
+app.get('/push/text', admin.makePushText);
 app.post('/push/:msgId', admin.pushMsg);
 app.get('/member', member.list);
 app.post('/member', member.addMembers);

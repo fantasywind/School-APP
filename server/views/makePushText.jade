@@ -4,11 +4,13 @@ div.column.one
     a.ui.button(href='/push')
       i.icon.arrow.left
       |  返回清單
-  form.ui.form.segment(method='post', action='/push')
+  form.ui.form.segment(method='post', action='/push/')
     div.field
       label 推播類型
       div.ui.selection.dropdown
         input(type='hidden', name='category', value='#{category[0].id}')
+        input(type='hidden', name='typeis', value='text')
+        input(type='hidden', name='categoryname', value='#{category[0].name}')
         i.dropdown.icon
         div.default.text #{category[0].name}
         div.ui.menu.transition.hidden
