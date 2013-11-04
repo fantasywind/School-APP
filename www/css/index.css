@@ -203,6 +203,42 @@ body.ios7 #weather-box {
   background-color: #d35400 !important;
 }
 
+/* 聊天 */
+#message-sender {
+  width: 94%;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #222;
+}
+
+#chat-window .footer {
+  padding: 0 6%;
+}
+
+#chat-window .footer * {
+  width: 90%;
+}
+
+#chat-messages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#chat-messages > li {
+  list-style: none;
+  margin-bottom: 4pt;
+}
+
+#chat-messages > li strong {
+  text-decoration: underline;
+  margin-right: 8pt; 
+}
+
+#chat-messages > li strong:after {
+  content: ':';
+  display: inline;
+}
+
 .green-tea {
   background-color: #16a085;
 }

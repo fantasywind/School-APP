@@ -120,6 +120,14 @@ var app = {
 
         // Initial Socket.io
         window.socket = io.connect(SOCKET);
+
+        window.socket.on('message', function (data) {
+          nowGroupId = $("#chat-window").data('groupId')
+          console.dir(JSON.stringify(data))
+          if (data.groupId == nowGroupId) {
+            $("#chat-window ul").append(TMPL.chatMessage(data))
+          }
+        });
         
         // Fetch Notification Category
         $.ajax(SERVER + '/push/category', {
@@ -208,6 +216,7 @@ TMPL.notificationCategory = _.template(document.querySelector('#notification-cat
 TMPL.notificationList = _.template(document.querySelector('#notification-list-tmpl').innerHTML);
 TMPL.notificationContent = _.template(document.querySelector("#notification-content-tmpl").innerHTML);
 TMPL.chatGroupList = _.template(document.querySelector("#chat-group-list-tmpl").innerHTML);
+TMPL.chatMessage = _.template(document.querySelector("#chat-message-tmpl").innerHTML);
 
 // ******** Main Page ********
 $("#main-menu").delegate('.tile', 'click', function (ev, ui) {
@@ -577,8 +586,6 @@ $("#chat-group").on('pagebeforeshow', function (ev) {
       console.error('Fetch Chat List Failed.');
     },
     success: function (result) {
-      console.log("Emit Socket.")
-      socket.emit('message', {groupId: 4, msg: '欸你要不要看電影'});
       if (result.status === 'success') {
         html = ""
         for (var i = 0; i < result.list.length; i += 1) {
@@ -597,13 +604,60 @@ $("#chat-group").on('pagebeforeshow', function (ev) {
   });
 });
 
-socket.on('enter', function (data) {
-  console.log('enter')
-  console.dir(data);
+$("#chat-group-list").delegate('a', 'click', function (e) {
+  e.preventDefault();
+  $this = $(this)
+
+  groupId = $(this).data('id');
+  $("#chat-window")
+    .data('groupId', groupId)
+    .find('h1').text($this.text())
+  $.mobile.changePage("#chat-window");
 });
 
-socket.on('message', function (data) {
-  console.dir(data);
+$("#chat-window").on('pagebeforeshow', function (e) {
+  $this = $(this)
+  groupId = $this.data('groupId')
+
+  $.ajax(SERVER + "/chat/" + groupId, {
+    dataType: 'json',
+    error: function (err) {
+      console.error(err);
+    },
+    success: function (result) {
+      if (result.status === 'success') {
+        html = ''
+        for (var i = 0; i < result.message.length; i += 1) {
+          html += TMPL.chatMessage(result.message[i])
+        }
+        $("h2", $this).fadeOut(function () {
+          $(this).remove();
+        });
+        $("ul", $this).html(html)
+      }
+    }
+  });
+
 });
 
-socket.emit('message', {groupId: 4, msg: '欸你要不要看電影'});
+$("#chat-window .footer").on('click', function (e) {
+  e.preventDefault();
+  $("input", this).focus();
+});
+
+$("#submit-chat").on('submit', function (e) {
+  e.preventDefault();
+  groupId = $("#chat-window").data('groupId')
+  input = $("#message-sender")
+
+  socket.emit('message', {
+    groupId: groupId,
+    msg: input.val(),
+    memberId: parseInt(localStorage.memberID, 10),
+    memberName: localStorage.name
+  });
+
+  input.val('')
+
+  return false
+});

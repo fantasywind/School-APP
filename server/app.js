@@ -75,6 +75,7 @@ app.get('/api/push/:msgId', admin.getPushMsg);
 app.post('/api/logout', auth.logout);
 app.post('/api/push/register', api.registerPush);
 app.get('/api/chat/list', api.getChatList);
+app.get('/api/chat/:groupId', api.getChatContent);
 
 /* Backend Site */
 app.get('/login', admin.login);
@@ -104,10 +105,24 @@ service = http.createServer(app).listen(app.get('port'), function(){
 
 ioSocket = io.listen(service);
 ioSocket.sockets.on('connection', function (socket) {
-  console.log('receive connection');
-
   socket.on('message', function (data) {
-    console.log('Message-----')
-    console.dir(data)
+    try {
+      conn.query("INSERT INTO message (sender, target_group, message) VALUES (?, ?, ?)", [data.memberId, data.groupId, data.msg], function (err, result) {
+        if (err) throw err;
+      })
+    } catch (ex) {
+      console.error(ex.toString())
+    }
+
+    socket.emit('message', {
+      groupId: data.groupId,
+      message: data.msg,
+      sender_name: data.memberName
+    });
+    socket.broadcast.emit('message', {
+      groupId: data.groupId,
+      message: data.msg,
+      sender_name: data.memberName
+    });
   });
 });
