@@ -109,7 +109,7 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        
+
         // Detect Login Status
         $(document).trigger('loginCheck');
         
@@ -201,7 +201,7 @@ var pushRegister = function () {
   }
 }
 
-// Templates
+// templates
 var TMPL = {};
 TMPL.introduceObject = _.template(document.querySelector("#introduce-object-tmpl").innerHTML);
 TMPL.notificationCategory = _.template(document.querySelector('#notification-category-tmpl').innerHTML);
@@ -529,7 +529,7 @@ $("#notification-content").on('showContent', function (ev) {
   if (ev.pushId === undefined) {
     return false;
   }
-  
+   
   var $this = $(this);
   
   $.ajax(SERVER + '/push/' + ev.pushId, {
@@ -539,14 +539,33 @@ $("#notification-content").on('showContent', function (ev) {
     },
     success: function (result) {
       if (result.status === 'msg') {
-        var html = TMPL.notificationContent(result.message);
-        $(".content", $this).html(html);
+        
+        $(".content", $this).html(result.message.article);
         $.mobile.changePage("#notification-content");
-      }
+        $("#navi > a", $("#notification-content")).button();
+      }  
     }
   });
 });
 
+$("#notification-content").delegate('#navi a', 'click', function (ev) {
+
+    navigator.geolocation.getCurrentPosition(function(position){
+
+        var href = "http://maps.apple.com/maps?daddr="
+                 + $("img").attr("data-lat") + ", "
+                 + $("img").attr("data-lng") 
+                 + "&saddr=" + position.coords.latitude
+                 + "," + position.coords.longitude;
+
+       //window.open need to add InAppbrowser plugin
+       window.open(href, '_system','location=yes');
+      
+    }, function(){
+        alert("Error");
+       }
+    );                 
+});
 /******** 聊天 ********/
 $("#chat-group").on('pagebeforeshow', function (ev) {
   $this = $(this)
